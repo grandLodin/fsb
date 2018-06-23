@@ -16,19 +16,19 @@ class ModeSelector:
 
         if index == 0:
             print("You choose: " + choice)
-            from server.main.servermain import ServerMain
+            from fsb.server.main.servermain import ServerMain
             ServerMain()
             self.mLoop = True
 
         if index == 1:
             print("You choose: " + choice)
-            from client.main.clientmain import ClientMain
+            from fsb.client.main.clientmain import ClientMain
             ClientMain()
             self.mLoop = True        
 
         if index == 2:
             print("You choose: " + choice)
-            from common.browsedecks import BrowseDecks
+            from fsb.common.browsedecks import BrowseDecks
             BrowseDecks(True)
             self.mLoop = True
 

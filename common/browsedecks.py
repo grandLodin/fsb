@@ -1,14 +1,14 @@
 import os
 import json
 from pick import pick
-from client.main.createdeck import CreateDeck
+from fsb.client.main.createdeck import CreateDeck
 
 class BrowseDecks:
     """Lets the user look at all decks """
 
     def __init__(self, pIsinBrowseMode):
         self.mIsDeckSelected = False
-        self.mPath = "./decks/"
+        self.mPath = "./fsb/decks/"
         self.mDeck = {}
         self.mDeckName = str
         self.mIsinBrowseMode = pIsinBrowseMode

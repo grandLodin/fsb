@@ -26,7 +26,7 @@ class GameLogger:
         """opens a text file"""
                        
         now = datetime.datetime.now()
-        path = './gamelogs/'
+        path = './fsb/gamelogs/'
         timestamp = '{}-{}-{}-{}{}{}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second)
         prefixFilename = str(path+timestamp)
         filename = prefixFilename + ".txt"

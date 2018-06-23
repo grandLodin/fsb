@@ -6,7 +6,7 @@ class ServerMain():
     if __name__=='__main__':
         sys.path.append('././')
 
-    from server.main.fight import Fight
+    from fsb.server.main.fight import Fight
     
     fight = Fight()
     fight.mGameLogger.writeLog()

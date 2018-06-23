@@ -1,8 +1,8 @@
 from pick import pick
-from server.main.arena import Arena
-from server.main.player import Player
-from common.minion import Minion
-from client.main.createdeck import CreateDeck
+from fsb.server.main.arena import Arena
+from fsb.server.main.player import Player
+from fsb.common.minion import Minion
+from fsb.client.main.createdeck import CreateDeck
 
 class Fight:
     """This class handles fighting logic"""

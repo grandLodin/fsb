@@ -1,5 +1,5 @@
 import datetime
-from common.minion import Minion
+from fsb.common.minion import Minion
 
 class CreateDeck():
     """Client class. This class contains the dialog to create a deck with minions."""
@@ -127,7 +127,7 @@ class CreateDeck():
         """Method to select a deck
         Returns a dictionary"""
 
-        from common.browsedecks import BrowseDecks
+        from fsb.common.browsedecks import BrowseDecks
 
         browseDeck = BrowseDecks(False)
         return browseDeck.mDeck
@@ -151,7 +151,7 @@ class CreateDeck():
         
         import json
         import os
-        path = './decks/'
+        path = './fsb/decks/'
         pathfilename = path+pDeckDict['filename']  
         with open(pathfilename, 'w') as f:
             json.dump(pDeckDict, f)

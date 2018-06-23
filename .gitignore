@@ -1,4 +1,2 @@
 .vscode/launch.json
-client/main/__pycache__/modeselector.cpython-36.pyc
-common/__pycache__/minion.cpython-36.pyc
-server/main/__pycache__/servermain.cpython-36.pyc
+.pyc

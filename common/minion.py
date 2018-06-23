@@ -1,8 +1,8 @@
 import sys
 from pick import pick
 
-from fsb.common.minionskills import MinionSkills
-from fsb.common.skill import Skill
+from common.minionskills import MinionSkills
+from common.skill import Skill
 
 class Minion:
     """Client class. This class creates a Minion entity."""

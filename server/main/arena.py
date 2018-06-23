@@ -1,5 +1,5 @@
-from fsb.server.main.gamelogger import GameLogger 
-from fsb.server.main.player import Player
+from server.main.gamelogger import GameLogger 
+from server.main.player import Player
 class Arena:
     """Arena Object"""
 

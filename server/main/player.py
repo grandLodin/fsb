@@ -1,10 +1,10 @@
 import os
 import json
 
-from fsb.client.main.createdeck import CreateDeck
-from fsb.common.browsedecks import BrowseDecks
-from fsb.common.minion import Minion
-from fsb.server.main.gamelogger import GameLogger
+from client.main.createdeck import CreateDeck
+from common.browsedecks import BrowseDecks
+from common.minion import Minion
+from server.main.gamelogger import GameLogger
 
 class Player():
     """Class for Entity Player"""

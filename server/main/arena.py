@@ -8,6 +8,7 @@ class Arena:
         self.mPlayerList = []
         self.mNumberOfPlayers = int
         self.mNexusHealth = int
+        self.mRing = []
 
         self.mGameLogger.addString("Game starts. Have fun!")
         self.howManyPlayers()
@@ -45,9 +46,11 @@ class Arena:
         i = 0
         while i < self.mNumberOfPlayers:
             player = Player()
+            player.setInitialPlayerHealth(self.mNexusHealth)
             player.setUniquePlayerName(self.mPlayerList)
             player.setDeck()
             self.mPlayerList.append(player)
+            self.mRing.append(player)
             self.mGameLogger.addString(player.mGameLogger.mLogString)
             i += 1
 

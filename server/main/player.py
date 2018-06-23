@@ -11,8 +11,12 @@ class Player():
 
     def __init__(self):
         self.mGameLogger = GameLogger()
-        self.mPlayerName = str 
+        self.mName = str 
         self.mDeck = {}
+
+        self.mPlayerHealth = int
+        self.mCurrentHealthPoints = int
+        self.mDead = False
 
 
     def setUniquePlayerName(self, pPlayerlist):
@@ -22,34 +26,33 @@ class Player():
         name = str(input("Player" + str(playerNumber) + " choose your Name:\n"))
         isNameUnique = True
         for item in pPlayerlist:
-            if item.mPlayerName == name:
+            if item.mName == name:
                 isNameUnique = False
         if not isNameUnique:
             print("This Name is not available")
             self.setUniquePlayerName(pPlayerlist)
         else:
-            self.mPlayerName = name            
-            log = "Name of Player"+str(playerNumber)+" was set to: " + self.mPlayerName
+            self.mName = name            
+            log = "Name of Player"+str(playerNumber)+" was set to: " + self.mName
             self.mGameLogger.addString(log)
         
+    def setInitialPlayerHealth(self, pNexusHealth):
+        """ """
+        self.mPlayerHealth = pNexusHealth
+        self.mCurrentHealthPoints = self.mPlayerHealth
+    
     def setDeck(self):
         """set the mDeck member for Class Player"""
 
         deckDict = CreateDeck.selectDeck()
         deck = CreateDeck().parseDeck(deckDict)
 
-        log = "\t" + self.mPlayerName + " selected the deck: " + deckDict['filename']
+        log = "\t" + self.mName + " selected the deck: " + deckDict['filename']
         log += CreateDeck.printDeck(deckDict)
         self.mGameLogger.addString(log)
         self.mDeck = deck
 
-    
-
-
-
-
-
-
-
-
-    
+    def isDead(self):
+        """ returns true is current hp of player is below 1"""
+        if self.mCurrentHealthPoints < 1:
+            return True

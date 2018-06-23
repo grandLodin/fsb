@@ -81,7 +81,7 @@ class CreateDeck():
         minionListDict = {}
         for minion in self.mMinionList:
             minionDict = {}
-            minionDict.update({'minionName' : str(minion.mMinionName)})
+            minionDict.update({'minionName' : str(minion.mName)})
             minionDict.update({'attack' : str(minion.mAttackPoints)})
             minionDict.update({'hp' : str(minion.mHealthPoints)})
             minionDict.update({'attack' : str(minion.mAttackPoints)})
@@ -90,7 +90,7 @@ class CreateDeck():
             for skill in skillList:
                 skillNames.append(skill.mSkillName)          
             minionDict.update({'skills' : skillNames})
-            minionListDict.update({minion.mMinionName : minionDict})
+            minionListDict.update({minion.mName : minionDict})
         dictionary.update({'minions' : minionListDict})
         self.mDeck = dictionary
         return dictionary

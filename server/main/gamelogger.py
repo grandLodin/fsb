@@ -21,6 +21,10 @@ class GameLogger:
         """adds a String to the logstring"""
         self.mLogString += "\n"+ pString
         print("\n"+ pString)
+
+    def clear(self):
+        """clears the log by setting it to empty string """
+        self.mLogString = ""
     
     def writeLog(self):
         """opens a text file"""

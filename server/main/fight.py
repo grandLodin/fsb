@@ -1,8 +1,8 @@
 from pick import pick
-from fsb.server.main.arena import Arena
-from fsb.server.main.player import Player
-from fsb.common.minion import Minion
-from fsb.client.main.createdeck import CreateDeck
+from server.main.arena import Arena
+from server.main.player import Player
+from common.minion import Minion
+from client.main.createdeck import CreateDeck
 
 class Fight:
     """This class handles fighting logic"""
@@ -31,33 +31,39 @@ class Fight:
     
     def deployMinion(self, pMinion):
         """Puts a Minion Obj in the Ring"""
-        pass
+        
+        self.mArean.mRing.append(pMinion)
 
     def chooseMinion(self):
         """every player chooses a Minion to deploy"""
         startlog = "##############Start of Round"+str(self.mRound)+"##############"
         self.mGameLogger.addString(startlog)
         for player in self.mPlayerList:
-            print(player.mPlayerName + "s MinionList:\n" + str(player.mDeck.mDeckName) )
-            dialog = player.mPlayerName + " select one of your minions"
+            print(player.mName + "s MinionList:\n" + str(player.mDeck.mDeckName) )
+            dialog = player.mName + " select one of your minions"
             options = self.getMinionNamesAsList(player.mDeck.mMinionList)
             if len(options) == 0:
-                emptyHandlog = player.mPlayerName +  " has no minions left.\n"
+                emptyHandlog = player.mName +  " has no minions left.\n"
                 self.mGameLogger.addString(emptyHandlog)
             else:
                 options.append("pass")
                 minionName, index = pick(options, dialog)
                 if minionName == "pass":
-                    passlog = player.mPlayerName + " passed.\n"
+                    passlog = player.mName + " passed.\n"
                     self.mGameLogger.addString(passlog)
                     pass
                 else:
                     minion = player.mDeck.mMinionList[index]
-                    log = player.mPlayerName + " has chosen " + minionName + Minion.printMinion(minion)
-                    self.mGameLogger.addString(log)
-                    self.deployMinion(minion)
-                    del player.mDeck.mMinionList[index]
-                    input("press the any key...")
+                    print(Minion.printMinion(minion))
+                    deploy = input("Do you want to send " + minion.mName + " in the Ring? (y/n)")
+                    if deploy == "y":                            
+                        log = player.mName + " has chosen " + minionName + Minion.printMinion(minion)
+                        self.mGameLogger.addString(log)
+                        self.deployMinion(minion)
+                        del player.mDeck.mMinionList[index]
+                        input("press the any key...")
+                    else:
+                        self.chooseMinion()
         self.mRound += 1
         self.mNumberOfMinionsInHand = self.getnumberOfMinionsInHands()
 
@@ -84,14 +90,11 @@ class Fight:
         if len(survivor) == 0:
             log = "Nobody survived this vicious fight. RIP"
         elif len(survivor) == 1:
-            log = str(survivor[0].mPlayerName) + " won the fight with " + str(survivor[0].mPlayerHealth) + "HP left."
+            log = str(survivor[0].mName) + " won the fight with " + str(survivor[0].mPlayerHealth) + "HP left."
         else:
             log = "Something went wrong here :/"
         print(log)
         self.mGameLogger.addString(log)
-
-
-
         
     def getnumberOfMinionsInHands(self):
         """looks into all player hands and counts the minions"""
@@ -104,7 +107,7 @@ class Fight:
         """MinionList -> MinionNameList"""
         names = []
         for minion in pMinionList:
-            names.append(minion.mMinionName)
+            names.append(minion.mName)
         return names
 
 

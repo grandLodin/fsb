@@ -7,7 +7,7 @@ class ClientMain():
     if __name__=='__main__':
         sys.path.append('././')
     
-    from fsb.client.main.createdeck import CreateDeck
+    from client.main.createdeck import CreateDeck
 
     deck = CreateDeck()
     deck.createDeckDialog()

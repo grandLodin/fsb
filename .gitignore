@@ -1,5 +1,6 @@
 .vscode/launch.json
 .pyc
+<<<<<<< HEAD
 gamelogs/2018-6-23-15010.txt
 common/__pycache__/minion.cpython-36.pyc
 client/main/__pycache__/clientmain.cpython-36.pyc
@@ -13,3 +14,5 @@ server/main/__pycache__/fight.cpython-36.pyc
 server/main/__pycache__/gamelogger.cpython-36.pyc
 server/main/__pycache__/player.cpython-36.pyc
 server/main/__pycache__/servermain.cpython-36.pyc
+=======
+>>>>>>> 0f85767091fe75c28a5295a0b2eda949713cea3b

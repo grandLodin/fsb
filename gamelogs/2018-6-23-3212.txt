@@ -1,0 +1,62 @@
+
+Game starts. Have fun!
+This is a 2 player match
+Nexus health was set to 5
+
+Name of Player1 was set to: f
+	f selected the deck: 2018-6-22-23229_Leo_20.json
+	Creator of the deck: Leo
+	Deckname: Biggl
+	Attribute points spent: 20
+	Minions:
+	Block(2/8) 
+		Skills:
+		Taunt, ID: 2, equipped: True
+		Minion protects own Nexus by blocking Face attack minions
+	Croc(2/3) 
+		Skills:
+		Attack Minion, ID: 1, equipped: True
+		Minion attacks enemy Minion with lowest attack value
+	Shock(3/2) 
+		Skills:
+		Attack Face, ID: 0, equipped: True
+		Minion attacks enemy Nexus if no taunt minion on board
+
+Name of Player2 was set to: s
+	s selected the deck: 2018-6-22-2396_Leo_10.json
+	Creator of the deck: Leo
+	Deckname: Toady
+	Attribute points spent: 10
+	Minions:
+	Toad(4/6) 
+		Skills:
+		Attack Minion, ID: 1, equipped: True
+		Minion attacks enemy Minion with lowest attack value
+##############Start of Round1##############
+f has chosen Block
+	Block(2/8) 
+		Skills:
+		Taunt, ID: 2, equipped: True
+		Minion protects own Nexus by blocking Face attack minions
+s has chosen Toad
+	Toad(4/6) 
+		Skills:
+		Attack Minion, ID: 1, equipped: True
+		Minion attacks enemy Minion with lowest attack value
+##############Start of Round2##############
+f has chosen Croc
+	Croc(2/3) 
+		Skills:
+		Attack Minion, ID: 1, equipped: True
+		Minion attacks enemy Minion with lowest attack value
+s has no minions left.
+
+##############Start of Round3##############
+f has chosen Shock
+	Shock(3/2) 
+		Skills:
+		Attack Face, ID: 0, equipped: True
+		Minion attacks enemy Nexus if no taunt minion on board
+s has no minions left.
+
+#############GAME OVER#############

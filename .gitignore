@@ -1,4 +1,15 @@
 .vscode/launch.json
-client/main/__pycache__/modeselector.cpython-36.pyc
+.pyc
+gamelogs/2018-6-23-15010.txt
 common/__pycache__/minion.cpython-36.pyc
+client/main/__pycache__/clientmain.cpython-36.pyc
+client/main/__pycache__/createdeck.cpython-36.pyc
+client/main/__pycache__/modeselector.cpython-36.pyc
+common/__pycache__/browsedecks.cpython-36.pyc
+common/__pycache__/minionskills.cpython-36.pyc
+gamelogs/2018-6-23-15010.txt
+server/main/__pycache__/arena.cpython-36.pyc
+server/main/__pycache__/fight.cpython-36.pyc
+server/main/__pycache__/gamelogger.cpython-36.pyc
+server/main/__pycache__/player.cpython-36.pyc
 server/main/__pycache__/servermain.cpython-36.pyc

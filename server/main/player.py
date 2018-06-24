@@ -12,7 +12,7 @@ class Player():
     def __init__(self):
         self.mGameLogger = GameLogger()
         self.mName = str 
-        self.mDeck = {}
+        self.mDeck = Deck()
 
         self.mPlayerHealth = int
         self.mCurrentHealthPoints = int
@@ -45,12 +45,11 @@ class Player():
         """set the mDeck member for Class Player"""
 
         deckDict = Deck.selectDeck()
-        deck = Deck().parseDeck(deckDict)
+        self.mDeck = Deck().parseDeck(deckDict)
 
         log = "\t" + self.mName + " selected the deck: " + deckDict['filename']
         log += Deck.printDeck(deckDict)
         self.mGameLogger.addString(log)
-        self.mDeck = deck
 
     def isDead(self):
         """ returns true is current hp of player is below 1"""

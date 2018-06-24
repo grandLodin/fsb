@@ -61,7 +61,7 @@ class Fight:
             else:
                 minion = pPlayer.mDeck.mMinionList[index]
                 print(Minion.printMinion(minion))
-                deploy = input("Do you want to send " + minion.mName + " in the Ring? (y/n)")
+                deploy = input("Do you want to send " + minion.mName + " in the Ring? (y/n)\n")
                 if deploy == "y":                            
                     log = pPlayer.mName + " has chosen " + minionName + Minion.printMinion(minion)
                     self.mGameLogger.addString(log)
@@ -70,7 +70,7 @@ class Fight:
                     
                 else:
                     self.chooseMinion(pPlayer)
-        input("press the any key choseminion...")
+        input("press the any key...")
 
     def deployMinion(self, pMinion):
         """Puts a Minion Obj in the Ring"""

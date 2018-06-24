@@ -60,7 +60,7 @@ class Minion:
     def setUniqueName(self, pOtherMinionsList):
         """Returns a name for a minion as String if the name was not choosen before"""
 
-        name = str(input("Give your minion a unique name: "))
+        name = self.getInput_setUniqueName("Give your minion a unique name: ")
         isNameUnique = True
         for item in pOtherMinionsList:
             if item.mName == name:
@@ -69,6 +69,7 @@ class Minion:
             self.setUniqueName(pOtherMinionsList)
         else:
             self.mName = name
+
 
     def setAttackPoints(self):
         """ sets the Attack points of a minion """ 
@@ -79,7 +80,7 @@ class Minion:
             print("Attack points of " + self.mName + " were set to 0.")
         else:
             try:
-                attackPoints = int(input("Set " + self.mName + "s attack value: "))
+                attackPoints = self.getInput_setAttackPoints("Set " + self.mName + "s attack value: ")
             except ValueError:
                 print("Value has to be of type integer")
                 attackPoints = self.mAttributePointsLeft
@@ -89,6 +90,7 @@ class Minion:
             else:
                 self.mAttackPoints = attackPoints
                 self.mAttributePointsLeft -= attackPoints
+
     
     def setHealthPoints(self):
         """ sets the Health points of a minion """ 
@@ -99,7 +101,7 @@ class Minion:
             print("Health points of " + self.mName + " were set to 1.")
         else:
             try:
-                healthPoints = int(input("Set " + self.mName + "s health value: "))
+                healthPoints = self.getInput_setHealthPoints("Set " + self.mName + "s health value: ")
             except ValueError:
                 print("Value has to be of type integer")
                 healthPoints = self.mAttributePointsLeft+1
@@ -109,6 +111,7 @@ class Minion:
             else:
                 self.mHealthPoints = healthPoints
                 self.mAttributePointsLeft -= self.mHealthPoints
+
 
     def pickSkill(self, pMinionName):
         """Adds a skill to a minion"""
@@ -163,3 +166,13 @@ class Minion:
             log += "\n" + Skill.printSkill(skill)
         return log
             
+######## Getter for Inputs. Needed for Mocks ###########
+
+    def getInput_setUniqueName(self, pText):
+        return str(input(pText))
+
+    def getInput_setHealthPoints(self, pText):
+        return int(input(pText))
+
+    def getInput_setAttackPoints(self, pText):
+        return int(input(pText))

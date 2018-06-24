@@ -11,17 +11,18 @@ class Deck():
         self.mCreatorname = str
         self.mMaxAttributePoints = 0
         self.mMinionList = []
-        self.mDeck = None
+        self.mDeckDict = None
     
     def createDeckDialog(self):
         """Navigates through the steps neccessary to create a Deck """
 
-        self.mCreatorname = input("Enter your name: ")
+        self.mCreatorname = self.getInput_CreatorName("Enter your name: ")
         self.chooseDeckName()
-        self.setMaxAttributePoint()
+        self.setMaxAttributePoints()
         self.mFilename = self.autoFilename()
-        self.createMinion(self.mMaxAttributePoints)
+        self.createMinions(self.mMaxAttributePoints)
         Deck.printDeck(self.createDictionary())
+
     
     
     def autoFilename(self):
@@ -32,21 +33,22 @@ class Deck():
         prefixFilename = str(timestamp+"_"+ self.mCreatorname + "_" + str(self.mMaxAttributePoints))
         return prefixFilename + ".json"
     
-    def setMaxAttributePoint(self):
+    def setMaxAttributePoints(self):
         """A dialog that sets the maximum attribute points to distribute"""
         try:
-            maxAttrPoints = int(input("How many attribute points should your deck have in total? "))
-        except ValueError:
+            maxAttrPoints = self.getInput_setMaxAtributePoints("How many attribute points should your deck have in total? ")
+            if maxAttrPoints > 0:
+                self.mMaxAttributePoints = maxAttrPoints
+            else:
+                print("Invalide Value! Must be higher than 0")
+                self.setMaxAttributePoints()
+
+        except TypeError:
             print("Invalide Value! Integer expected.")
-            self.setMaxAttributePoint()
-        if maxAttrPoints > 0:
-            self.mMaxAttributePoints = maxAttrPoints
-        else:
-            print("Value must be higher than 0.")
-            self.setMaxAttributePoint()
-   
+            self.setMaxAttributePoints()
+
     
-    def createMinion(self, pAttributePointsLeft):
+    def createMinions(self, pAttributePointsLeft):
         """Navigates through the creation of a set of minions"""
 
         if(int(pAttributePointsLeft) > 0):
@@ -56,17 +58,18 @@ class Deck():
             minion.createMinionDialog(self.mMinionList)
             if (minion.mAttackPoints + minion.mHealthPoints) > int(pAttributePointsLeft):
                 print ("Not enough attribute points available.")
-                self.createMinion(pAttributePointsLeft)               
+                self.createMinions(pAttributePointsLeft)               
             else:
                 self.mMinionList.append(minion)
                 attributePointsLeft = int(pAttributePointsLeft) - (minion.mAttackPoints + minion.mHealthPoints)                
-                self.createMinion(attributePointsLeft)
+                self.createMinions(attributePointsLeft)
 
     def chooseDeckName(self):
         """Lets the player choose a Name for the Deck """
         try:
-            deckname = str(input("Choose a Name for your Deck: "))
+            deckname = self.getInput_chooseDeckName("Choose a Name for your Deck: ")
             self.mDeckName = deckname
+        # catch should be not neccessary, but who knows..
         except ValueError:
             print("Invalide Name!")
             self.chooseDeckName()    
@@ -84,7 +87,6 @@ class Deck():
             minionDict.update({'minionName' : str(minion.mName)})
             minionDict.update({'attack' : str(minion.mAttackPoints)})
             minionDict.update({'hp' : str(minion.mHealthPoints)})
-            minionDict.update({'attack' : str(minion.mAttackPoints)})
             skillList = minion.mSkills 
             skillNames = []
             for skill in skillList:
@@ -92,7 +94,7 @@ class Deck():
             minionDict.update({'skills' : skillNames})
             minionListDict.update({minion.mName : minionDict})
         dictionary.update({'minions' : minionListDict})
-        self.mDeck = dictionary
+        self.mDeckDict = dictionary
         return dictionary
 
 
@@ -102,12 +104,12 @@ class Deck():
         Returns a Deck"""
 
         self.mLog = ""
-        self.mFilename = pDeckDict['deckname']
-        self.mDeckName = pDeckDict['filename']
+        self.mDeckName = pDeckDict['deckname']
+        self.mFilename = pDeckDict['filename']
         self.mCreatorname = pDeckDict['Creatorname']
-        self.mMaxAttributePoints = pDeckDict['maxAttrPoints']
+        self.mMaxAttributePoints = int(pDeckDict['maxAttrPoints'])
         self.mMinionList = Deck.findMinionsInDeck(pDeckDict)
-        self.mDeck = pDeckDict
+        self.mDeckDict = pDeckDict
         return self
     
     @staticmethod
@@ -157,5 +159,15 @@ class Deck():
             json.dump(pDeckDict, f)
         decksyspath = os.path.abspath(path)
         print("Deck saved in directory \"" + decksyspath + "\" as " + pDeckDict['filename'])
-                           
+
+
+####### Getter for Inputs. Needed for Mocks ##########
+
+    def getInput_CreatorName(self, pText):
+        return str(input(pText))                        
     
+    def getInput_setMaxAtributePoints(self, pText):
+        return int(input(pText))
+
+    def getInput_chooseDeckName(self, pText):
+        return str(input(pText))

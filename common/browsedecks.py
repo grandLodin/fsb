@@ -9,7 +9,7 @@ class BrowseDecks:
     def __init__(self, pIsinBrowseMode):
         self.mIsDeckSelected = False
         self.mPath = "./decks/"
-        self.mDeck = {}
+        self.mDeck = Deck()
         self.mDeckName = str
         self.mIsinBrowseMode = pIsinBrowseMode
         self.browseDecks()

@@ -55,34 +55,47 @@ Hans has chosen Moe
 		Skills:
 		Attack Minion, ID: 1, equipped: True
 		Minion attacks enemy Minion with lowest attack value
+Schiggo dealt 3 damage to Moe
+Moe died.
+Moe dealt 4 damage to Schiggo
+Schiggo died.
 ##############Start of Round -2- ##############
-Leo has chosen Gloomy
-	Gloomy(2/3) 
-		Skills:
-		Attack Minion, ID: 1, equipped: True
-		Minion attacks enemy Minion with lowest attack value
-Hans has chosen Joa
-	Joa(1/4) 
-		Skills:
-		Taunt, ID: 2, equipped: True
-		Minion protects own Nexus by blocking Face attack minions
-##############Start of Round -3- ##############
 Leo has chosen Pika
 	Pika(5/3) 
 		Skills:
 		Attack Face, ID: 0, equipped: True
 		Minion attacks enemy Nexus if no taunt minion on board
+Hans has chosen Joa
+	Joa(1/4) 
+		Skills:
+		Taunt, ID: 2, equipped: True
+		Minion protects own Nexus by blocking Face attack minions
+Moe dealt 4 damage to Pika
+Pika died.
+Pika dealt 5 damage to Moe
+Moe died.
+Joa dealt 1 damage to Pika
+Pika died.
+##############Start of Round -3- ##############
+Leo has chosen Gloomy
+	Gloomy(2/3) 
+		Skills:
+		Attack Minion, ID: 1, equipped: True
+		Minion attacks enemy Minion with lowest attack value
 Hans has chosen Croc
 	Croc(2/3) 
 		Skills:
 		Attack Minion, ID: 1, equipped: True
 		Minion attacks enemy Minion with lowest attack value
+Pika dealt 5 damage to Joa
+Joa died.
+Joa dealt 1 damage to Pika
+Pika died.
+Gloomy dealt 2 damage to Joa
+Joa died.
+Croc dealt 2 damage to Pika
+Pika died.
 ##############Start of Round -4- ##############
-Leo has no minions left.
-
-Hans passed.
-
-##############Start of Round -5- ##############
 Leo has no minions left.
 
 Hans has chosen Juggl
@@ -90,4 +103,61 @@ Hans has chosen Juggl
 		Skills:
 		Attack Minion, ID: 1, equipped: True
 		Minion attacks enemy Minion with lowest attack value
+Joa dealt 1 damage to Gloomy
+Gloomy dealt 2 damage to Joa
+Joa died.
+Gloomy dealt 2 damage to Joa
+Joa died.
+Croc dealt 2 damage to Gloomy
+Gloomy died.
+Juggl dealt 3 damage to Gloomy
+Gloomy died.
+##############Start of Round -5- ##############
+Gloomy dealt 2 damage to Croc
+Croc dealt 2 damage to Gloomy
+Gloomy died.
+Croc dealt 2 damage to Gloomy
+Gloomy died.
+Juggl dealt 3 damage to Gloomy
+Gloomy died.
+##############Start of Round -6- ##############
+Croc dealt 2 damage to Leo
+
+Name of Player1 was set to: Leo
+	Leo selected the deck: 2018-6-23-16629_Leo_20.json
+	Creator of the deck: Leo
+	Deckname: Pocke
+	Attribute points spent: 20
+	Minions:
+	Schiggo(3/4) 
+		Skills:
+		Attack Minion, ID: 1, equipped: True
+		Minion attacks enemy Minion with lowest attack value
+	Pika(5/3) 
+		Skills:
+		Attack Face, ID: 0, equipped: True
+		Minion attacks enemy Nexus if no taunt minion on board
+	Gloomy(2/3) 
+		Skills:
+		Attack Minion, ID: 1, equipped: True
+		Minion attacks enemy Minion with lowest attack value
+Juggl dealt 3 damage to Leo
+
+##############Start of Round -7- ##############
+Croc dealt 2 damage to Leo
+
+Juggl dealt 3 damage to Leo
+
+##############Start of Round -8- ##############
+Croc dealt 2 damage to Leo
+
+Juggl dealt 3 damage to Leo
+
+##############Start of Round -9- ##############
+Croc dealt 2 damage to Leo
+
+Juggl dealt 3 damage to Leo
+Leo died.
+
+Hans won the fight with 20HP left.
 #############GAME OVER#############

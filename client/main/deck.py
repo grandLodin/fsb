@@ -84,7 +84,7 @@ class Deck():
         minionListDict = {}
         for minion in self.mMinionList:
             minionDict = {}
-            minionDict.update({'minionName' : str(minion.mName)})
+            minionDict.update({'minionName' : str(minion.mMinionName)})
             minionDict.update({'attack' : str(minion.mAttackPoints)})
             minionDict.update({'hp' : str(minion.mHealthPoints)})
             skillList = minion.mSkills 
@@ -92,13 +92,13 @@ class Deck():
             for skill in skillList:
                 skillNames.append(skill.mSkillName)          
             minionDict.update({'skills' : skillNames})
-            minionListDict.update({minion.mName : minionDict})
+            minionListDict.update({minion.mMinionName : minionDict})
         dictionary.update({'minions' : minionListDict})
         self.mDeckDict = dictionary
         return dictionary
 
 
-    def parseDeck(self, pDeckDict):
+    def parseDeck(self, pDeckDict, pPlayerName):
         """parses a deck dictionary to its Class 
         Param: Deck Dictionary
         Returns a Deck"""
@@ -108,7 +108,7 @@ class Deck():
         self.mFilename = pDeckDict['filename']
         self.mCreatorname = pDeckDict['Creatorname']
         self.mMaxAttributePoints = int(pDeckDict['maxAttrPoints'])
-        self.mMinionList = Deck.findMinionsInDeck(pDeckDict)
+        self.mMinionList = Deck.findMinionsInDeck(pDeckDict, pPlayerName)
         self.mDeckDict = pDeckDict
         return self
     
@@ -120,7 +120,7 @@ class Deck():
         log += "\n\tDeckname: " + pDeckDict['deckname']
         log += "\n\tAttribute points spent: " + str(pDeckDict['maxAttrPoints'])
         log += "\n\tMinions:"            
-        for minion in Deck.findMinionsInDeck(pDeckDict):
+        for minion in Deck.findMinionsInDeck(pDeckDict, ""):
             log += Minion.printMinion(minion)
         return log
     
@@ -135,7 +135,7 @@ class Deck():
         return browseDeck.mDeck
 
     @staticmethod
-    def findMinionsInDeck(pDeckDict):
+    def findMinionsInDeck(pDeckDict, pPlayerName):
         """iterates through a deck and finds all minions
         Returns a List of Minions"""
 
@@ -143,7 +143,7 @@ class Deck():
         minionList = []
         
         for key in minionDict:
-            minion = Minion().parseMinion(minionDict[key], pDeckDict['Creatorname'])
+            minion = Minion().parseMinion(minionDict[key], str(pPlayerName))
             minionList.append(minion)
         return minionList
   

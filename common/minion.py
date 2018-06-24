@@ -13,40 +13,75 @@ class Minion:
 
         self.mId = int
         self.mGameLogger = GameLogger()
-        self.mPlayer = str
-        self.mName = str
+        self.mPlayerName = str
+        self.mMinionName = str
         self.mAttackPoints = int
         self.mHealthPoints = int
-        self.mCurrentHealthPoints = self.mHealthPoints
+        self.mCurrentHealthPoints = int 
         self.mAttributePointsLeft = int
         self.mNumberOfSkills = int
         self.mSkills = []
-        self.mIsDead = False
+        self.mDead = False
 
-    def findTarget(self, pTargetList):
+    
+    def attack(self, pRing):
+        """Looks throug a List and adds them to a new List if enemy
+        param: a List Minions and Players
+        returns a List of enemies """
+
+        enemies = []
+        for item in pRing:
+            if item.mPlayerName != self.mPlayerName:
+                enemies.append(item)  
+
+        self.findTarget(enemies)
+
+    def findTarget(self, pEnemies):
         """ looks through a list of targets including 
         minions and players and decides who to attack"""
 
-
-        pass
-
+        if len(pEnemies) == 1:
+            self.dealDamage(pEnemies[0])
+        else:
+            if self.areEnemyMinionsInRing(pEnemies):
+                enemies = self.removePlayersFromEnemies(pEnemies)
+                self.findTarget([enemies[0]])
+            else: # attack player
+                self.findTarget([pEnemies[0]])
     
+    def areEnemyMinionsInRing(self, pEnemies):
+        """ looks through Ring and returns true is enemy Minions ar present """
 
-    
+        for item in pEnemies:
+            if item.__class__.__name__ == "Minion":
+                return True
+        return False
+
+    def removePlayersFromEnemies(self, pEnemies):
+        """ goes through a list and removes item if class = Player
+        returns cleaned list """
+
+        enemies = pEnemies
+        for i, item in enumerate(enemies):
+            if item.__class__.__name__ == "Player":
+                del enemies[i]
+        return enemies
+
     def dealDamage(self, pTarget):
         """Deals damage to minion or player"""
 
-        # if pTarget.__class__.__name__ == "Minion":
-        #     pTarget.mCurrentHealthPoints -= self.mAttackPoints
-        #     log= self.mName + " dealt " + self.mAttackPoints + "damage to " + pTarget.mName
-        
-        # if pTarget.__class__.__name__ == "Player":
         pTarget.mCurrentHealthPoints -= self.mAttackPoints
-        log= self.mName + " dealt " + self.mAttackPoints + "damage to " + pTarget.mName
-        pTarget.isDead()
-        log += pTarget.mGameLogger.mLogString
+
+        if pTarget.__class__.__name__ == "Minion":            
+            log= self.mMinionName + " dealt " + str(self.mAttackPoints) + " damage to " + pTarget.mMinionName + "\n"
+        
+        if pTarget.__class__.__name__ == "Player":
+            log= self.mMinionName + " dealt " + str(self.mAttackPoints) + " damage to " + pTarget.mPlayerName + "\n"
+
         pTarget.mGameLogger.clear()
-        self.mGameLogger.addString(log)
+        pTarget.isDead()
+        log += pTarget.mGameLogger.mLogString        
+        self.mGameLogger.mLogString = log
 
     def createMinionDialog(self, pOtherMinionsList):
         """A dialog to create a Minion"""
@@ -55,7 +90,7 @@ class Minion:
         self.setAttackPoints()
         self.setHealthPoints()
         self.mNumberOfSkills = 1
-        self.mSkills = self.pickSkill(self.mName)
+        self.mSkills = self.pickSkill(self.mMinionName)
     
     def setUniqueName(self, pOtherMinionsList):
         """Returns a name for a minion as String if the name was not choosen before"""
@@ -63,12 +98,12 @@ class Minion:
         name = self.getInput_setUniqueName("Give your minion a unique name: ")
         isNameUnique = True
         for item in pOtherMinionsList:
-            if item.mName == name:
+            if item.mMinionName == name:
                 isNameUnique = False
         if not isNameUnique:
             self.setUniqueName(pOtherMinionsList)
         else:
-            self.mName = name
+            self.mMinionName = name
 
 
     def setAttackPoints(self):
@@ -77,10 +112,10 @@ class Minion:
         if self.mAttributePointsLeft == 1:
             self.mAttackPoints = 0
             self.mAttributePointsLeft -= self.mAttackPoints
-            print("Attack points of " + self.mName + " were set to 0.")
+            print("Attack points of " + self.mMinionName + " were set to 0.")
         else:
             try:
-                attackPoints = self.getInput_setAttackPoints("Set " + self.mName + "s attack value: ")
+                attackPoints = self.getInput_setAttackPoints("Set " + self.mMinionName + "s attack value: ")
             except ValueError:
                 print("Value has to be of type integer")
                 attackPoints = self.mAttributePointsLeft
@@ -98,10 +133,10 @@ class Minion:
         if self.mAttributePointsLeft == 1:
             self.mHealthPoints = 1
             self.mAttributePointsLeft -= self.mHealthPoints
-            print("Health points of " + self.mName + " were set to 1.")
+            print("Health points of " + self.mMinionName + " were set to 1.")
         else:
             try:
-                healthPoints = self.getInput_setHealthPoints("Set " + self.mName + "s health value: ")
+                healthPoints = self.getInput_setHealthPoints("Set " + self.mMinionName + "s health value: ")
             except ValueError:
                 print("Value has to be of type integer")
                 healthPoints = self.mAttributePointsLeft+1
@@ -132,19 +167,20 @@ class Minion:
         """ returns true if hp below 1"""
 
         if self.mCurrentHealthPoints < 1:
-            log = self.mName + " died." 
-            self.mGameLogger.addString(log)
-            return True
+            self.mDead = True
+            log = self.mMinionName + " died." 
+            self.mGameLogger.mLogString = log
     
     def parseMinion(self, pMinionDict, pPlayername):
         """parses a Minion dictioniary to the Object Minion \n
         param: minion dictionary
         returns a minion instance"""
         self.mId = int(hash(str(pMinionDict)))
-        self.mName = pMinionDict["minionName"]
-        self.mPlayer = str(pPlayername)
+        self.mMinionName = pMinionDict["minionName"]
+        self.mPlayerName = str(pPlayername)
         self.mAttackPoints = int(pMinionDict["attack"])
         self.mHealthPoints = int(pMinionDict["hp"])
+        self.mCurrentHealthPoints = int(pMinionDict["hp"])
         self.mSkills =  MinionSkills().findSkillsByNames(pMinionDict["skills"])
         return self
         
@@ -161,7 +197,7 @@ class Minion:
     def printMinion(pMinion):
         """Prints the stats of a minion and returns it as string"""
         
-        log = "\n\t" + str(pMinion.mName + "(" + str(pMinion.mAttackPoints) + "/" + str(pMinion.mHealthPoints) + ") \n\t\tSkills:")
+        log = "\n\t" + str(pMinion.mMinionName + "(" + str(pMinion.mAttackPoints) + "/" + str(pMinion.mHealthPoints) + ") \n\t\tSkills:")
         for skill in pMinion.mSkills:
             log += "\n" + Skill.printSkill(skill)
         return log

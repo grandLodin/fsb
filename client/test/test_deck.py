@@ -11,6 +11,7 @@ if __name__ == '__main__':
 from client.main.deck import Deck
 from common.minion import Minion
 from common.skill import Skill
+from server.main.player import Player
 
 
 class TestDeck(unittest.TestCase):
@@ -29,6 +30,7 @@ class TestDeck(unittest.TestCase):
     def setUpClass(cls):        
         
         cls.deck = Deck()
+        cls.player = Player()
         cls.minion = Minion()
         cls.skill = Skill()
 
@@ -42,7 +44,9 @@ class TestDeck(unittest.TestCase):
         self.deck.mMinionList = []
         self.deck.mDeckDict = None
 
-        self.minion.mName = "testminion"
+        self.player.mPlayerName = "TestPlayer"
+
+        self.minion.mMinionName = "testminion"
         self.minion.mAttackPoints = 1
         self.minion.mHealthPoints = 1
         self.minion.mSkills = [self.skill]
@@ -54,7 +58,7 @@ class TestDeck(unittest.TestCase):
         """ tests method: parseDeck"""
 
         deckDict = {"deckname": "test_", "filename": "test.json_", "Creatorname": "Tester_", "maxAttrPoints": "4", "minions": {"testminion_": {"minionName": "testminion_", "attack": "2", "hp": "2", "skills": ["Attack Face"]}}}
-        self.deck.parseDeck(deckDict)
+        self.deck.parseDeck(deckDict, self.player.mPlayerName)
 
         self.assertEqual(self.deck.mDeckName, "test_")
         self.assertEqual(self.deck.mFilename, "test.json_")

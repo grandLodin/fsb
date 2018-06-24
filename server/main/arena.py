@@ -9,6 +9,7 @@ class Arena:
         self.mNumberOfPlayers = int
         self.mNexusHealth = int
         self.mRing = []
+        self.mGraveyard = []
 
         self.mGameLogger.addString("Game starts. Have fun!")
         self.howManyPlayers()
@@ -53,4 +54,16 @@ class Arena:
             self.mRing.append(player)
             self.mGameLogger.addString(player.mGameLogger.mLogString)
             i += 1
+
+    def noMinionsInRing(self):
+        """ returns True if no minion in the ring"""
+        
+        minionsInRing = []
+        for item in self.mRing:
+            if item.__class__.__name__ == "Minion":
+                minionsInRing.append(item)
+        return len(minionsInRing) == 0 
+
+
+
 

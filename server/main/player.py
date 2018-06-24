@@ -1,7 +1,7 @@
 import os
 import json
 
-from client.main.createdeck import CreateDeck
+from client.main.deck import Deck
 from common.browsedecks import BrowseDecks
 from common.minion import Minion
 from server.main.gamelogger import GameLogger
@@ -44,11 +44,11 @@ class Player():
     def setDeck(self):
         """set the mDeck member for Class Player"""
 
-        deckDict = CreateDeck.selectDeck()
-        deck = CreateDeck().parseDeck(deckDict)
+        deckDict = Deck.selectDeck()
+        deck = Deck().parseDeck(deckDict)
 
         log = "\t" + self.mName + " selected the deck: " + deckDict['filename']
-        log += CreateDeck.printDeck(deckDict)
+        log += Deck.printDeck(deckDict)
         self.mGameLogger.addString(log)
         self.mDeck = deck
 

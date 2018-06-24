@@ -35,9 +35,8 @@ class GameLogger:
         prefixFilename = str(path+timestamp)
         filename = prefixFilename + ".txt"
 
-        textfile = open(filename, "w")
-        textfile.write(self.mLogString)
-        textfile.close()
-
+        with open(filename, "w") as textfile:
+            textfile.write(self.mLogString)
+    
         decksyspath = os.path.abspath(path)
         print("Game log saved in directory \"" + decksyspath + "\" as " + timestamp +".txt")

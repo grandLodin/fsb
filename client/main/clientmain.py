@@ -7,11 +7,11 @@ class ClientMain():
     if __name__=='__main__':
         sys.path.append('././')
     
-    from client.main.createdeck import CreateDeck
+    from client.main.deck import Deck
 
-    deck = CreateDeck()
+    deck = Deck()
     deck.createDeckDialog()
-    CreateDeck.saveDeck(deck.createDictionary())
+    Deck.saveDeck(deck.createDictionary())
     input("Press the \'any\' key on your keyboard to continue...")
 
         

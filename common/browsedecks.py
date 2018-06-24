@@ -1,7 +1,7 @@
 import os
 import json
 from pick import pick
-from client.main.createdeck import CreateDeck
+from client.main.deck import Deck
 
 class BrowseDecks:
     """Lets the user look at all decks """
@@ -28,7 +28,7 @@ class BrowseDecks:
         
             with open(self.mPath+options[index]) as f:
                 deckDict = json.load(f)
-            print(CreateDeck.printDeck(deckDict))
+            print(Deck.printDeck(deckDict))
 
             if self.mIsinBrowseMode:
                 cont = input("Do you want to continue browsing? (y/n)  ")

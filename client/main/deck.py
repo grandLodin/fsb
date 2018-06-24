@@ -1,7 +1,7 @@
 import datetime
 from common.minion import Minion
 
-class CreateDeck():
+class Deck():
     """Client class. This class contains the dialog to create a deck with minions."""
     
     def __init__(self):
@@ -21,7 +21,7 @@ class CreateDeck():
         self.setMaxAttributePoint()
         self.mFilename = self.autoFilename()
         self.createMinion(self.mMaxAttributePoints)
-        CreateDeck.printDeck(self.createDictionary())
+        Deck.printDeck(self.createDictionary())
     
     
     def autoFilename(self):
@@ -63,7 +63,7 @@ class CreateDeck():
                 self.createMinion(attributePointsLeft)
 
     def chooseDeckName(self):
-        """Lets thp player choose a NAme for the Deck """
+        """Lets the player choose a Name for the Deck """
         try:
             deckname = str(input("Choose a Name for your Deck: "))
             self.mDeckName = deckname
@@ -106,7 +106,7 @@ class CreateDeck():
         self.mDeckName = pDeckDict['filename']
         self.mCreatorname = pDeckDict['Creatorname']
         self.mMaxAttributePoints = pDeckDict['maxAttrPoints']
-        self.mMinionList = CreateDeck.findMinionsInDeck(pDeckDict)
+        self.mMinionList = Deck.findMinionsInDeck(pDeckDict)
         self.mDeck = pDeckDict
         return self
     
@@ -118,7 +118,7 @@ class CreateDeck():
         log += "\n\tDeckname: " + pDeckDict['deckname']
         log += "\n\tAttribute points spent: " + str(pDeckDict['maxAttrPoints'])
         log += "\n\tMinions:"            
-        for minion in CreateDeck.findMinionsInDeck(pDeckDict):
+        for minion in Deck.findMinionsInDeck(pDeckDict):
             log += Minion.printMinion(minion)
         return log
     

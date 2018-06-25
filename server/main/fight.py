@@ -42,7 +42,7 @@ class Fight:
         input("press the any key to continue...")
 
     def startRound(self):
-        startlog = "##############Start of Round -"+str(self.mRound)+"- ##############"
+        startlog = "############## Start of Round -"+str(self.mRound)+"- ##############"
         self.mGameLogger.addString(startlog)        
 
 
@@ -79,10 +79,13 @@ class Fight:
     def clearRingOfDeadBodies(self):
         """ puts dead minions on the graveyard"""
 
-        for i, entity in enumerate(self.mArena.mRing):
-            if entity.mDead:
-                del self.mArena.mRing[i]
-                self.mArena.mGraveyard.append(entity)
+        survivors = []
+        for entity in self.mArena.mRing:
+            if not entity.mDead:
+                survivors.append(entity)
+            else:
+                self.mArena.mGraveyard.append(entity)                        
+        self.mArena.mRing = survivors
     
 
     def isGameOver(self):
@@ -99,7 +102,10 @@ class Fight:
                 for player in playersAlive:
                     if player.hasMinionsInHand():
                         noMinionsLeftToPlay = False
-                return noMinionsLeftToPlay
+                    if noMinionsLeftToPlay:
+                        self.whoWon(playersAlive)
+                        return True
+                return False
             else:
                 return False
 
@@ -122,7 +128,7 @@ class Fight:
         elif len(pPlayersAlive) == 1:
             log = str(pPlayersAlive[0].mPlayerName) + " won the fight with " + str(pPlayersAlive[0].mPlayerHealth) + "HP left."
         else:
-            log = "Something went wrong here :/"
+            log = "Draw!"
         self.mGameLogger.addString(log)
         
     def getnumberOfMinionsInHands(self):

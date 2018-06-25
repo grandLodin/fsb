@@ -175,7 +175,7 @@ class Minion:
         """parses a Minion dictioniary to the Object Minion \n
         param: minion dictionary
         returns a minion instance"""
-        self.mId = int(hash(str(pMinionDict)))
+        self.mId = int(hash(str(pMinionDict)+pPlayername))
         self.mMinionName = pMinionDict["minionName"]
         self.mPlayerName = str(pPlayername)
         self.mAttackPoints = int(pMinionDict["attack"])

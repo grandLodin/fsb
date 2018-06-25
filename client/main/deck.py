@@ -10,8 +10,8 @@ class Deck():
         self.mDeckName: str
         self.mCreatorname: str
         self.mMaxAttributePoints: int
-        self.mMinionList: list
-        self.mDeckDict: dict
+        self.mMinionList: list = []
+        self.mDeckDict: dict = {}
     
     def createDeckDialog(self):
         """Navigates through the steps neccessary to create a Deck """

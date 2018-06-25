@@ -18,7 +18,11 @@ class Arena:
     
     def howManyPlayers(self):
         """this method returns the number of players"""
-        numberOfPlayers = 2
+        try:
+            numberOfPlayers = self.getInput_setPlayerNumer("How many players? ")
+        except ValueError:
+            print("Invalide Value. Value has to be a positive integer.")
+            self.howManyPlayers()
         if numberOfPlayers > 0 and type(numberOfPlayers) == int:
             self.mNumberOfPlayers = numberOfPlayers
             log = "This is a " + str(self.mNumberOfPlayers) + " player match"
@@ -63,6 +67,12 @@ class Arena:
             if item.__class__.__name__ == "Minion":
                 minionsInRing.append(item)
         return len(minionsInRing) == 0 
+
+
+######## Getter for Inputs. Needed for Mocks ###########
+
+    def getInput_setPlayerNumer(self, pText):
+        return int(input(pText))
 
 
 

@@ -61,10 +61,10 @@ class Minion:
         """ goes through a list and removes item if class = Player
         returns cleaned list """
 
-        enemies = pEnemies
-        for i, item in enumerate(enemies):
-            if item.__class__.__name__ == "Player":
-                del enemies[i]
+        enemies = []
+        for item in pEnemies:
+            if not item.__class__.__name__ == "Player":
+                enemies.append(item)
         return enemies
 
     def dealDamage(self, pTarget):

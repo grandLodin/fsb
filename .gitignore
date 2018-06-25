@@ -2,6 +2,7 @@
 .vscode/.ropeproject/objectdb
 *.pyc
 *.bat
+gamelogs/
 
 
 # Byte-compiled / optimized / DLL files

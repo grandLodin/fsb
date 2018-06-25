@@ -5,13 +5,13 @@ class Deck():
     """Client class. This class contains the dialog to create a deck with minions."""
     
     def __init__(self):
-        self.mLog = str
-        self.mFilename = str 
-        self.mDeckName = str
-        self.mCreatorname = str
-        self.mMaxAttributePoints = 0
-        self.mMinionList = []
-        self.mDeckDict = None
+        self.mLog: str
+        self.mFilename: str
+        self.mDeckName: str
+        self.mCreatorname: str
+        self.mMaxAttributePoints: int
+        self.mMinionList: list
+        self.mDeckDict: dict
     
     def createDeckDialog(self):
         """Navigates through the steps neccessary to create a Deck """
@@ -23,20 +23,18 @@ class Deck():
         self.createMinions(self.mMaxAttributePoints)
         Deck.printDeck(self.createDictionary())
 
-    
-    
     def autoFilename(self):
         """creates a filename like: 2018-6-22-2396_Leo_10.json"""
 
         now = datetime.datetime.now()
-        timestamp = '{}-{}-{}-{}{}{}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second)
+        timestamp: str = '{}-{}-{}-{}{}{}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second)
         prefixFilename = str(timestamp+"_"+ self.mCreatorname + "_" + str(self.mMaxAttributePoints))
         return prefixFilename + ".json"
     
     def setMaxAttributePoints(self):
         """A dialog that sets the maximum attribute points to distribute"""
         try:
-            maxAttrPoints = self.getInput_setMaxAtributePoints("How many attribute points should your deck have in total? ")
+            maxAttrPoints : int = self.getInput_setMaxAtributePoints("How many attribute points should your deck have in total? ")
             if maxAttrPoints > 0:
                 self.mMaxAttributePoints = maxAttrPoints
             else:
@@ -53,7 +51,7 @@ class Deck():
 
         if(int(pAttributePointsLeft) > 0):
             print("Attribute points left: " + str(pAttributePointsLeft))
-            minion = Minion()
+            minion: Minion = Minion()
             minion.mAttributePointsLeft = pAttributePointsLeft
             minion.createMinionDialog(self.mMinionList)
             if (minion.mAttackPoints + minion.mHealthPoints) > int(pAttributePointsLeft):
@@ -61,14 +59,13 @@ class Deck():
                 self.createMinions(pAttributePointsLeft)               
             else:
                 self.mMinionList.append(minion)
-                attributePointsLeft = int(pAttributePointsLeft) - (minion.mAttackPoints + minion.mHealthPoints)                
+                attributePointsLeft: int = int(pAttributePointsLeft) - (minion.mAttackPoints + minion.mHealthPoints)
                 self.createMinions(attributePointsLeft)
 
     def chooseDeckName(self):
         """Lets the player choose a Name for the Deck """
         try:
-            deckname = self.getInput_chooseDeckName("Choose a Name for your Deck: ")
-            self.mDeckName = deckname
+            self.mDeckName : str = self.getInput_chooseDeckName("Choose a Name for your Deck: ")
         # catch should be not neccessary, but who knows..
         except ValueError:
             print("Invalide Name!")
@@ -76,19 +73,19 @@ class Deck():
     
     def createDictionary(self):
         """Creates a Dictionary containing class variables"""
-        dictionary = {}
+        dictionary: dict = {}
         dictionary.update({'deckname' : self.mDeckName})
         dictionary.update({'filename' : self.mFilename})
         dictionary.update({'Creatorname' : str(self.mCreatorname)})
         dictionary.update({'maxAttrPoints' : str(self.mMaxAttributePoints)})
-        minionListDict = {}
+        minionListDict: dict = {}
         for minion in self.mMinionList:
-            minionDict = {}
+            minionDict: dict = {}
             minionDict.update({'minionName' : str(minion.mMinionName)})
             minionDict.update({'attack' : str(minion.mAttackPoints)})
             minionDict.update({'hp' : str(minion.mHealthPoints)})
-            skillList = minion.mSkills 
-            skillNames = []
+            skillList: list = minion.mSkills
+            skillNames: list = []
             for skill in skillList:
                 skillNames.append(skill.mSkillName)          
             minionDict.update({'skills' : skillNames})

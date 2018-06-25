@@ -4,14 +4,14 @@ class ModeSelector:
     """Lets the player choose between modes  """
 
     def __init__(self):
-        self.mLoop = True
+        self.mLoop: bool = True
         self.selectMode()
 
     def selectMode(self):
         """Lets the player choose between modes."""
 
-        dialog = "Do you want to play, create a new deck, browse your decks or exit"
-        options = ["Play", "Create a Deck", "Browse Decks", "Exit"] 
+        dialog: str = "Do you want to play, create a new deck, browse your decks or exit"
+        options: list = ["Play", "Create a Deck", "Browse Decks", "Exit"]
         choice, index = pick(options, dialog)
 
         if index == 0:

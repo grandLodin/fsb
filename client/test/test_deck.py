@@ -173,7 +173,7 @@ class TestDeck(unittest.TestCase):
     def test_saveDeck(self):
         """tests method: saveDeck"""
 
-        testDict = deckDict =  {"deckname": "test_", "filename": "test.json", "Creatorname": "Tester_", "maxAttrPoints": "4", "minions": {"testminion_": {"minionName": "testminion_", "attack": "2", "hp": "2", "skills": ["Attack Face"]}}}
+        deckDict =  {"deckname": "test_", "filename": "test.json", "Creatorname": "Tester_", "maxAttrPoints": "4", "minions": {"testminion_": {"minionName": "testminion_", "attack": "2", "hp": "2", "skills": ["Attack Face"]}}}
         filename = "./decks/test.json"
 
         try:

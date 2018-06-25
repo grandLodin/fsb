@@ -1,5 +1,4 @@
 import os
-import json
 
 from client.main.deck import Deck
 from common.browsedecks import BrowseDecks

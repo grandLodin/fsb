@@ -1,5 +1,6 @@
 import sys
 import os
+import json
 import unittest
 from unittest.mock import MagicMock
 from unittest.mock import patch
@@ -12,16 +13,17 @@ from client.main.deck import Deck
 from common.minion import Minion
 from common.skill import Skill
 from server.main.player import Player
+from common.minionskills import MinionSkills
 
 
 class TestDeck(unittest.TestCase):
-    """ Testclass for class Deck """
+    """ Testclass for class Deck from client.main.deck """
 
-        # Disable
+    # Disable print
     def blockPrint(self):
         sys.stdout = None 
 
-    # Restore
+    # Restore print
     def enablePrint(self):
         sys.stdout = sys.__stdout__
    
@@ -53,36 +55,42 @@ class TestDeck(unittest.TestCase):
 
         self.skill.mSkillName = "Taunt"
 
+        self.testdictionary = {"deckname": "test_", "filename": "test.json", "Creatorname": "Tester_", "maxAttrPoints": "4", "minions": {"testminion_": {"minionName": "testminion_", "attack": "2", "hp": "2", "skills": ["Attack Face"]}}}
 
-    def test_parseDeck(self):
-        """ tests method: parseDeck"""
-
-        deckDict = {"deckname": "test_", "filename": "test.json_", "Creatorname": "Tester_", "maxAttrPoints": "4", "minions": {"testminion_": {"minionName": "testminion_", "attack": "2", "hp": "2", "skills": ["Attack Face"]}}}
-        self.deck.parseDeck(deckDict, self.player.mPlayerName)
-
-        self.assertEqual(self.deck.mDeckName, "test_")
-        self.assertEqual(self.deck.mFilename, "test.json_")
-        self.assertEqual(self.deck.mCreatorname, "Tester_")
-        self.assertEqual(self.deck.mMaxAttributePoints, 4)
-        self.assertEqual(len(self.deck.mMinionList), 1)
-        self.assertEqual(self.deck.mDeckDict, deckDict)
-
+    def tearDown(self):
+        pass
     
-    def test_createDictionary(self):
-        """ tests method: createDictionary"""
-
-        self.deck.mMinionList = [self.minion]
-
-        deckDict = self.deck.createDictionary()
-        self.assertIsNotNone(deckDict)
-        self.assertEqual(deckDict['deckname'], "test" )
-        self.assertEqual(deckDict['filename'], "test.json" )
-        self.assertEqual(deckDict['Creatorname'], "Tester" )
-        self.assertEqual(deckDict['maxAttrPoints'], "0")
-        self.assertEqual(deckDict['minions'], {"testminion": {"minionName": "testminion", "attack": "1", "hp": "1", "skills": ["Taunt"]}} )
-
-
+    @classmethod
+    def tearDownClass(cls):
+        pass
     
+    ######################## TESTS #############################
+
+    # createDeckDialog not tested. already covered by other tests
+
+    #TODO: autoFilename not tested
+
+    def test_setMaxAttributePoint(self):
+        """ test for method: setMaxAttributePoint"""
+
+        with patch('client.main.deck.Deck.getInput_setMaxAtributePoints', return_value = 2):
+            self.blockPrint()
+            self.deck.setMaxAttributePoints()
+            self.enablePrint()
+        self.assertEqual(self.deck.mMaxAttributePoints , 2)
+
+        self.deck.mMaxAttributePoints = 0
+        
+        inputs = [0, -1, ""]
+        for i in inputs:
+            try: 
+                with patch('client.main.deck.Deck.getInput_setMaxAtributePoints', return_value = i):
+                    self.blockPrint()
+                    self.deck.setMaxAttributePoints()
+                    self.enablePrint()
+            except RecursionError:
+                self.assertEqual(self.deck.mMaxAttributePoints , 0)
+
     # @patch('common.minion.Minion.getInput_setUniqueName', return_value = "" )
     # @patch('common.minion.Minion.getInput_setHealthPoints', return_value = 1 )
     # @patch('common.minion.Minion.getInput_setAttackPoints', return_value = 1 )
@@ -110,36 +118,7 @@ class TestDeck(unittest.TestCase):
                                     self.enablePrint()
                                 except RecursionError: #because unable to set unique name
                                     self.assertEqual(len(self.deck.mMinionList), 1 )
-        
 
-
-
-
-
-    def test_setMaxAttributePoint(self):
-        """ test for method: setMaxAttributePoint"""
-
-        with patch('client.main.deck.Deck.getInput_setMaxAtributePoints', return_value = 2):
-            self.blockPrint()
-            self.deck.setMaxAttributePoints()
-            self.enablePrint()
-        self.assertEqual(self.deck.mMaxAttributePoints , 2)
-
-        self.deck.mMaxAttributePoints = 0
-        
-        inputs = [0, -1, ""]
-        for i in inputs:
-            try: 
-                with patch('client.main.deck.Deck.getInput_setMaxAtributePoints', return_value = i):
-                    self.blockPrint()
-                    self.deck.setMaxAttributePoints()
-                    self.enablePrint()
-            except RecursionError:
-                self.assertEqual(self.deck.mMaxAttributePoints , 0)
-        
-        
-
-   
     def test_chooseDeckName(self):
         """ test for method: chooseDeckName"""
 
@@ -150,13 +129,61 @@ class TestDeck(unittest.TestCase):
             self.assertEqual(self.deck.mDeckName, i )
 
 
+    def test_createDictionary(self):
+        """ tests method: createDictionary"""
+
+        self.deck.mMinionList = [self.minion]
+
+        deckDict = self.deck.createDictionary()
+        self.assertIsNotNone(deckDict)
+        self.assertEqual(deckDict['deckname'], "test" )
+        self.assertEqual(deckDict['filename'], "test.json" )
+        self.assertEqual(deckDict['Creatorname'], "Tester" )
+        self.assertEqual(deckDict['maxAttrPoints'], "0")
+        self.assertEqual(deckDict['minions'], {"testminion": {"minionName": "testminion", "attack": "1", "hp": "1", "skills": ["Taunt"]}} )
+        
+
+    def test_parseDeck(self):
+        """ tests method: parseDeck"""
+
+        deckDict = {"deckname": "test_", "filename": "test.json_", "Creatorname": "Tester_", "maxAttrPoints": "4", "minions": {"testminion_": {"minionName": "testminion_", "attack": "2", "hp": "2", "skills": ["Attack Face"]}}}
+        self.deck.parseDeck(deckDict, self.player.mPlayerName)
+
+        self.assertEqual(self.deck.mDeckName, "test_")
+        self.assertEqual(self.deck.mFilename, "test.json_")
+        self.assertEqual(self.deck.mCreatorname, "Tester_")
+        self.assertEqual(self.deck.mMaxAttributePoints, 4)
+        self.assertEqual(len(self.deck.mMinionList), 1)
+        self.assertEqual(self.deck.mDeckDict, deckDict)
+
+
+    # selectDeck not tested. Called method will be tested in test_browsedeck
+
+    def test_findMinionsInDeck(self):
+        """tests method: findMinionsInDeck"""
+
+        deckDict =  {"deckname": "test_", "filename": "test.json_", "Creatorname": "Tester_", "maxAttrPoints": "4", "minions": {"testminion_": {"minionName": "testminion_", "attack": "2", "hp": "2", "skills": ["Attack Face"]}}}
+        playername = "Tester"
+
+        minionlist = self.deck.findMinionsInDeck(deckDict, playername)
+
+        self.assertIsNotNone(minionlist)
+        self.assertEqual(len(minionlist), 1)
+
+    def test_saveDeck(self):
+        """tests method: saveDeck"""
+
+        testDict = deckDict =  {"deckname": "test_", "filename": "test.json", "Creatorname": "Tester_", "maxAttrPoints": "4", "minions": {"testminion_": {"minionName": "testminion_", "attack": "2", "hp": "2", "skills": ["Attack Face"]}}}
+        filename = "./decks/test.json"
+
+        try:
+            self.deck.saveDeck(self.testdictionary)
+            with open(filename) as f:
+                    content = json.load(f)
+        finally:
+            os.remove(filename)
+        self.assertEqual(content, deckDict)
+
 
 if __name__ == '__main__':
         unittest.main()
-
-
-
-
-
-
-    

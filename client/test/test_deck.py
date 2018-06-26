@@ -2,31 +2,25 @@ import sys
 import os
 import json
 import unittest
-from unittest.mock import MagicMock
 from unittest.mock import patch
-import datetime 
-
-if __name__ == '__main__':        
-        sys.path.append('././') 
-
 from client.main.deck import Deck
 from common.minion import Minion
 from common.skill import Skill
 from server.main.player import Player
-from common.minionskills import MinionSkills
 
 
 class TestDeck(unittest.TestCase):
     """ Testclass for class Deck from client.main.deck """
 
     # Disable print
-    def blockPrint(self):
+    @staticmethod
+    def blockPrint():
         sys.stdout = None 
 
     # Restore print
-    def enablePrint(self):
+    @staticmethod
+    def enablePrint():
         sys.stdout = sys.__stdout__
-   
 
     @classmethod
     def setUpClass(cls):        
@@ -35,7 +29,6 @@ class TestDeck(unittest.TestCase):
         cls.player = Player()
         cls.minion = Minion()
         cls.skill = Skill()
-
     
     def setUp(self):
         self.deck.mLog = ""
@@ -68,12 +61,12 @@ class TestDeck(unittest.TestCase):
 
     # createDeckDialog not tested. already covered by other tests
 
-    #TODO: autoFilename not tested
+    # TODO: autoFilename not tested
 
     def test_setMaxAttributePoint(self):
         """ test for method: setMaxAttributePoint"""
 
-        with patch('client.main.deck.Deck.getInput_setMaxAtributePoints', return_value = 2):
+        with patch('client.main.deck.Deck.getInput_setMaxAttributePoints', return_value = 2):
             self.blockPrint()
             self.deck.setMaxAttributePoints()
             self.enablePrint()
@@ -84,7 +77,7 @@ class TestDeck(unittest.TestCase):
         inputs = [0, -1, ""]
         for i in inputs:
             try: 
-                with patch('client.main.deck.Deck.getInput_setMaxAtributePoints', return_value = i):
+                with patch('client.main.deck.Deck.getInput_setMaxAttributePoints', return_value=i):
                     self.blockPrint()
                     self.deck.setMaxAttributePoints()
                     self.enablePrint()
@@ -100,10 +93,10 @@ class TestDeck(unittest.TestCase):
 
         self.deck.mMinionList = []
 
-        with patch('common.minion.Minion.getInput_setUniqueName', return_value = "" ):
-            with patch('common.minion.Minion.getInput_setHealthPoints', return_value = 1 ):
-                with patch('common.minion.Minion.getInput_setAttackPoints', return_value = 1 ):
-                    with patch('pick.Picker.start', return_value = ("Attack Face", 0) ):
+        with patch('common.minion.Minion.getInput_setUniqueName', return_value=""):
+            with patch('common.minion.Minion.getInput_setHealthPoints', return_value=1):
+                with patch('common.minion.Minion.getInput_setAttackPoints', return_value=1):
+                    with patch('pick.Picker.start', return_value = ("Attack Face", 0)):
                                 self.deck.createMinions(0)
                                 self.assertListEqual(self.deck.mMinionList, [])
 
@@ -116,8 +109,8 @@ class TestDeck(unittest.TestCase):
                                     self.blockPrint()
                                     self.deck.createMinions(3)
                                     self.enablePrint()
-                                except RecursionError: #because unable to set unique name
-                                    self.assertEqual(len(self.deck.mMinionList), 1 )
+                                except RecursionError:  # because unable to set unique name
+                                    self.assertEqual(len(self.deck.mMinionList), 1)
 
     def test_chooseDeckName(self):
         """ test for method: chooseDeckName"""
@@ -126,8 +119,7 @@ class TestDeck(unittest.TestCase):
         for i in inputs:
             with patch('client.main.deck.Deck.getInput_chooseDeckName', return_value = i):
                 self.deck.chooseDeckName()
-            self.assertEqual(self.deck.mDeckName, i )
-
+            self.assertEqual(self.deck.mDeckName, i)
 
     def test_createDictionary(self):
         """ tests method: createDictionary"""
@@ -137,11 +129,10 @@ class TestDeck(unittest.TestCase):
         deckDict = self.deck.createDictionary()
         self.assertIsNotNone(deckDict)
         self.assertEqual(deckDict['deckname'], "test" )
-        self.assertEqual(deckDict['filename'], "test.json" )
+        self.assertIsInstance(deckDict['filename'], str)
         self.assertEqual(deckDict['Creatorname'], "Tester" )
         self.assertEqual(deckDict['maxAttrPoints'], "0")
         self.assertEqual(deckDict['minions'], {"testminion": {"minionName": "testminion", "attack": "1", "hp": "1", "skills": ["Taunt"]}} )
-        
 
     def test_parseDeck(self):
         """ tests method: parseDeck"""
@@ -156,13 +147,12 @@ class TestDeck(unittest.TestCase):
         self.assertEqual(len(self.deck.mMinionList), 1)
         self.assertEqual(self.deck.mDeckDict, deckDict)
 
-
-    # selectDeck not tested. Called method will be tested in test_browsedeck
+    #selectDeck not tested. Called method will be tested in test_browsedeck
 
     def test_findMinionsInDeck(self):
         """tests method: findMinionsInDeck"""
 
-        deckDict =  {"deckname": "test_", "filename": "test.json_", "Creatorname": "Tester_", "maxAttrPoints": "4", "minions": {"testminion_": {"minionName": "testminion_", "attack": "2", "hp": "2", "skills": ["Attack Face"]}}}
+        deckDict = {"deckname": "test_", "filename": "test.json_", "Creatorname": "Tester_", "maxAttrPoints": "4", "minions": {"testminion_": {"minionName": "testminion_", "attack": "2", "hp": "2", "skills": ["Attack Face"]}}}
         playername = "Tester"
 
         minionlist = self.deck.findMinionsInDeck(deckDict, playername)
@@ -173,7 +163,9 @@ class TestDeck(unittest.TestCase):
     def test_saveDeck(self):
         """tests method: saveDeck"""
 
-        deckDict =  {"deckname": "test_", "filename": "test.json", "Creatorname": "Tester_", "maxAttrPoints": "4", "minions": {"testminion_": {"minionName": "testminion_", "attack": "2", "hp": "2", "skills": ["Attack Face"]}}}
+        deckDict = {"deckname": "test_", "filename": "test.json", "Creatorname": "Tester_",
+                    "maxAttrPoints": "4", "minions": {"testminion_": {"minionName": "testminion_", "attack": "2",
+                                                                      "hp": "2", "skills": ["Attack Face"]}}}
         filename = "./decks/test.json"
 
         try:

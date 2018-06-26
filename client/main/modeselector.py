@@ -1,5 +1,6 @@
 from pick import pick
 
+
 class ModeSelector:
     """Lets the player choose between modes  """
 
@@ -24,7 +25,7 @@ class ModeSelector:
             print("You choose: " + choice)
             from client.main.clientmain import ClientMain
             ClientMain()
-            self.mLoop = True        
+            self.mLoop = True
 
         if index == 2:
             print("You choose: " + choice)
@@ -34,5 +35,4 @@ class ModeSelector:
 
         if index == 3:
             print("You choose: " + choice)
-            self.mLoop = False   
-    
+            self.mLoop = False

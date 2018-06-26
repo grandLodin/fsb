@@ -1,170 +1,169 @@
 import datetime
+from builtins import print, TypeError
 from common.minion import Minion
 
-class Deck():
-    """Client class. This class contains the dialog to create a deck with minions."""
-    
-    def __init__(self):
-        self.mLog: str
-        self.mFilename: str
-        self.mDeckName: str
-        self.mCreatorname: str
-        self.mMaxAttributePoints: int
-        self.mMinionList: list = []
-        self.mDeckDict: dict = {}
-    
-    def createDeckDialog(self):
-        """Navigates through the steps neccessary to create a Deck """
 
-        self.mCreatorname = self.getInput_CreatorName("Enter your name: ")
-        self.chooseDeckName()
-        self.setMaxAttributePoints()
-        self.mFilename = self.autoFilename()
-        self.createMinions(self.mMaxAttributePoints)
-        Deck.printDeck(self.createDictionary())
+# noinspection PyAttributeOutsideInit,
+class Deck:
+	"""Client class. This class contains the dialog to create a deck with minions."""
 
-    def autoFilename(self):
-        """creates a filename like: 2018-6-22-2396_Leo_10.json"""
+	def __init__(self):
+		self.mLog: str
+		self.mFilename: str
+		self.mDeckName: str
+		self.mCreatorname: str
+		self.mMaxAttributePoints: int
+		self.mMinionList: list = []
+		self.mDeckDict: dict = {}
 
-        now = datetime.datetime.now()
-        timestamp: str = '{}-{}-{}-{}{}{}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second)
-        prefixFilename = str(timestamp+"_"+ self.mCreatorname + "_" + str(self.mMaxAttributePoints))
-        return prefixFilename + ".json"
-    
-    def setMaxAttributePoints(self):
-        """A dialog that sets the maximum attribute points to distribute"""
-        try:
-            maxAttrPoints : int = self.getInput_setMaxAtributePoints("How many attribute points should your deck have in total? ")
-            if maxAttrPoints > 0:
-                self.mMaxAttributePoints = maxAttrPoints
-            else:
-                print("Invalide Value! Must be higher than 0")
-                self.setMaxAttributePoints()
+	def createDeckDialog(self):
+		"""Navigates through the steps necessary to create a Deck """
 
-        except TypeError:
-            print("Invalide Value! Integer expected.")
-            self.setMaxAttributePoints()
+		self.mCreatorname = self.getInput_CreatorName("Enter your name: ")
+		self.chooseDeckName()
+		self.setMaxAttributePoints()
+		self.createMinions(self.mMaxAttributePoints)
+		Deck.printDeck(self.createDictionary())
 
-    
-    def createMinions(self, pAttributePointsLeft):
-        """Navigates through the creation of a set of minions"""
+	@property
+	def autoFilename(self):
+		"""creates a filename like: 2018-6-22-2396_Leo_10.json"""
 
-        if(int(pAttributePointsLeft) > 0):
-            print("Attribute points left: " + str(pAttributePointsLeft))
-            minion: Minion = Minion()
-            minion.mAttributePointsLeft = pAttributePointsLeft
-            minion.createMinionDialog(self.mMinionList)
-            if (minion.mAttackPoints + minion.mHealthPoints) > int(pAttributePointsLeft):
-                print ("Not enough attribute points available.")
-                self.createMinions(pAttributePointsLeft)               
-            else:
-                self.mMinionList.append(minion)
-                attributePointsLeft: int = int(pAttributePointsLeft) - (minion.mAttackPoints + minion.mHealthPoints)
-                self.createMinions(attributePointsLeft)
+		now = datetime.datetime.now()
+		timestamp = '{}-{}-{}-{}{}{}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second)
+		prefixFilename = str(timestamp + "_" + self.mCreatorname + "_" + str(self.mMaxAttributePoints))
+		return prefixFilename + ".json"
 
-    def chooseDeckName(self):
-        """Lets the player choose a Name for the Deck """
-        try:
-            self.mDeckName : str = self.getInput_chooseDeckName("Choose a Name for your Deck: ")
-        # catch should be not neccessary, but who knows..
-        except ValueError:
-            print("Invalide Name!")
-            self.chooseDeckName()    
-    
-    def createDictionary(self):
-        """Creates a Dictionary containing class variables"""
-        dictionary: dict = {}
-        dictionary.update({'deckname' : self.mDeckName})
-        dictionary.update({'filename' : self.mFilename})
-        dictionary.update({'Creatorname' : str(self.mCreatorname)})
-        dictionary.update({'maxAttrPoints' : str(self.mMaxAttributePoints)})
-        minionListDict: dict = {}
-        for minion in self.mMinionList:
-            minionDict: dict = {}
-            minionDict.update({'minionName' : str(minion.mMinionName)})
-            minionDict.update({'attack' : str(minion.mAttackPoints)})
-            minionDict.update({'hp' : str(minion.mHealthPoints)})
-            skillList: list = minion.mSkills
-            skillNames: list = []
-            for skill in skillList:
-                skillNames.append(skill.mSkillName)          
-            minionDict.update({'skills' : skillNames})
-            minionListDict.update({minion.mMinionName : minionDict})
-        dictionary.update({'minions' : minionListDict})
-        self.mDeckDict = dictionary
-        return dictionary
+	def setMaxAttributePoints(self):
+		"""A dialog that sets the maximum attribute points to distribute"""
+		try:
+			maxAttrPoints = self.getInput_setMaxAttributePoints(
+				"How many attribute points should your deck have in total? ")
+			if maxAttrPoints > 0:
+				self.mMaxAttributePoints = maxAttrPoints
+			else:
+				print("Invalid Value! Must be higher than 0")
+				self.setMaxAttributePoints()
 
+		except TypeError:
+			print("Invalid Value! Integer expected.")
+			self.setMaxAttributePoints()
 
-    def parseDeck(self, pDeckDict, pPlayerName):
-        """parses a deck dictionary to its Class 
-        Param: Deck Dictionary
-        Returns a Deck"""
+	def createMinions(self, pAttributePointsLeft):
+		"""Navigates through the creation of a set of minions"""
 
-        self.mLog = ""
-        self.mDeckName = pDeckDict['deckname']
-        self.mFilename = pDeckDict['filename']
-        self.mCreatorname = pDeckDict['Creatorname']
-        self.mMaxAttributePoints = int(pDeckDict['maxAttrPoints'])
-        self.mMinionList = Deck.findMinionsInDeck(pDeckDict, pPlayerName)
-        self.mDeckDict = pDeckDict
-        return self
-    
-    @staticmethod
-    def printDeck(pDeckDict):
-        """prints a Deck as string"""
+		if int(pAttributePointsLeft) > 0:
+			print("Attribute points left: " + str(pAttributePointsLeft))
+			minion: Minion = Minion()
+			minion.mAttributePointsLeft = pAttributePointsLeft
+			minion.createMinionDialog(self.mMinionList)
+			if (minion.mAttackPoints + minion.mHealthPoints) > int(pAttributePointsLeft):
+				print("Not enough attribute points available.")
+				self.createMinions(pAttributePointsLeft)
+			else:
+				self.mMinionList.append(minion)
+				attributePointsLeft: int = int(pAttributePointsLeft) - (minion.mAttackPoints + minion.mHealthPoints)
+				self.createMinions(attributePointsLeft)
 
-        log = "\n\tCreator of the deck: " + pDeckDict['Creatorname']  
-        log += "\n\tDeckname: " + pDeckDict['deckname']
-        log += "\n\tAttribute points spent: " + str(pDeckDict['maxAttrPoints'])
-        log += "\n\tMinions:"            
-        for minion in Deck.findMinionsInDeck(pDeckDict, ""):
-            log += Minion.printMinion(minion)
-        return log
-    
-    @staticmethod
-    def selectDeck():
-        """Method to select a deck
-        Returns a dictionary"""
+	def chooseDeckName(self):
+		"""Lets the player choose a Name for the Deck """
+		try:
+			self.mDeckName: str = self.getInput_chooseDeckName("Choose a Name for your Deck: ")
+		# catch should be not necessary, but who knows..
+		except ValueError:
+			print("Invalid Name!")
+			self.chooseDeckName()
 
-        from common.browsedecks import BrowseDecks
+	def createDictionary(self):
+		"""Creates a Dictionary containing class variables"""
+		dictionary: dict = {}
+		dictionary.update({'deckname': self.mDeckName})
+		dictionary.update({'filename': self.autoFilename})
+		dictionary.update({'Creatorname': str(self.mCreatorname)})
+		dictionary.update({'maxAttrPoints': str(self.mMaxAttributePoints)})
+		minionListDict: dict = {}
+		for minion in self.mMinionList:
+			minionDict: dict = {}
+			minionDict.update({'minionName': str(minion.mMinionName)})
+			minionDict.update({'attack': str(minion.mAttackPoints)})
+			minionDict.update({'hp': str(minion.mHealthPoints)})
+			skillList: list = minion.mSkills
+			skillNames: list = []
+			for skill in skillList:
+				skillNames.append(skill.mSkillName)
+			minionDict.update({'skills': skillNames})
+			minionListDict.update({minion.mMinionName: minionDict})
+		dictionary.update({'minions': minionListDict})
+		self.mDeckDict = dictionary
+		return dictionary
 
-        browseDeck = BrowseDecks(False)
-        return browseDeck.mDeck
+	def parseDeck(self, pDeckDict, pPlayerName):
+		"""parses a deck dictionary to its Class Param: Deck Dictionary Returns a Deck"""
 
-    @staticmethod
-    def findMinionsInDeck(pDeckDict, pPlayerName):
-        """iterates through a deck and finds all minions
-        Returns a List of Minions"""
+		self.mLog = ""
+		self.mDeckName = pDeckDict['deckname']
+		self.mFilename = pDeckDict['filename']
+		self.mCreatorname = pDeckDict['Creatorname']
+		self.mMaxAttributePoints = int(pDeckDict['maxAttrPoints'])
+		self.mMinionList = Deck.findMinionsInDeck(pDeckDict, pPlayerName)
+		self.mDeckDict = pDeckDict
+		return self
 
-        minionDict = pDeckDict['minions']
-        minionList = []
-        
-        for key in minionDict:
-            minion = Minion().parseMinion(minionDict[key], str(pPlayerName))
-            minionList.append(minion)
-        return minionList
-  
-    @staticmethod
-    def saveDeck(pDeckDict):   
-        """saves a dictionary as .json"""  
-        
-        import json
-        import os
-        path = './decks/'
-        pathfilename = path+pDeckDict['filename']  
-        with open(pathfilename, 'w') as f:
-            json.dump(pDeckDict, f)
-        decksyspath = os.path.abspath(path)
-        print("Deck saved in directory \"" + decksyspath + "\" as " + pDeckDict['filename'])
+	@staticmethod
+	def printDeck(pDeckDict):
+		"""prints a Deck as string"""
 
+		log = "\n\tCreator of the deck: " + pDeckDict['Creatorname']
+		log += "\n\tDeckname: " + pDeckDict['deckname']
+		log += "\n\tAttribute points spent: " + str(pDeckDict['maxAttrPoints'])
+		log += "\n\tMinions:"
+		for minion in Deck.findMinionsInDeck(pDeckDict, ""):
+			log += Minion.printMinion(minion)
+		return log
+
+	@staticmethod
+	def selectDeck():
+		"""Method to select a deck Returns a dictionary"""
+
+		from common.browsedecks import BrowseDecks
+		browseDeck = BrowseDecks(False)
+		return browseDeck.mDeck
+
+	@staticmethod
+	def findMinionsInDeck(pDeckDict, pPlayerName):
+		"""iterates through a deck and finds all minions Returns a List of Minions"""
+
+		minionDict = pDeckDict['minions']
+		minionList = []
+
+		for key in minionDict:
+			minion = Minion().parseMinion(minionDict[key], str(pPlayerName))
+			minionList.append(minion)
+		return minionList
+
+	@staticmethod
+	def saveDeck(pDeckDict):
+		"""saves a dictionary as .json"""
+
+		import json
+		import os
+		path = './decks/'
+		pathfilename = path + pDeckDict['filename']
+		with open(pathfilename, 'w') as f:
+			json.dump(pDeckDict, f)
+		decksyspath = os.path.abspath(path)
+		print("Deck saved in directory \"" + decksyspath + "\" as " + pDeckDict['filename'])
 
 ####### Getter for Inputs. Needed for Mocks ##########
 
-    def getInput_CreatorName(self, pText):
-        return str(input(pText))                        
-    
-    def getInput_setMaxAtributePoints(self, pText):
-        return int(input(pText))
+	@staticmethod
+	def getInput_CreatorName(pText) -> str:
+		return str(input(pText))
 
-    def getInput_chooseDeckName(self, pText):
-        return str(input(pText))
+	@staticmethod
+	def getInput_setMaxAttributePoints(pText):
+		return int(input(pText))
+
+	@staticmethod
+	def getInput_chooseDeckName(pText):
+		return str(input(pText))

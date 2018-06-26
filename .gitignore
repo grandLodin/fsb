@@ -1,8 +1,12 @@
 .vscode/launch.json
 .vscode/.ropeproject/objectdb
+.vscode/settings.json
+.idea/
 *.pyc
 *.bat
 gamelogs/
+*.iml
+venv/
 
 
 # Byte-compiled / optimized / DLL files
@@ -109,4 +113,5 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
 

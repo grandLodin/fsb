@@ -1,12 +1,8 @@
-
-
-class Time:
-
-    def __init__(self):         
-        
-        self.year = "0"
-        self.month = "1"
-        self.day = "2"
-        self.hour = "3"
-        self.minute= "4"
-        self.second = "5"
+class MockTime:
+    
+    year = "0"
+    month = "1"
+    day = "2"
+    hour = "3"
+    minute= "4"
+    second = "5"

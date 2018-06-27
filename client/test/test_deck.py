@@ -9,7 +9,7 @@ from client.main.deck import Deck
 from common.minion import Minion
 from common.skill import Skill
 from server.main.player import Player
-from client.test.testutils import Time
+from client.test.testutils import MockTime
 
 
 
@@ -66,7 +66,7 @@ class TestDeck(unittest.TestCase):
     
     # createDeckDialog not tested. already covered by other tests
 
-    @patch("client.main.deck.Deck.timenow", return_value = Time())
+    @patch("client.main.deck.Deck.timenow", return_value = MockTime)
     def test_autoFilename(self, pTesttime):
         filename = self.deck.autoFilename
         self.assertEqual(filename, "0-1-2-345_Tester_0.json")

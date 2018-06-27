@@ -1,5 +1,3 @@
-#import sys
-#sys.path.append('././')
 from client.main.modeselector import ModeSelector
 
 if __name__ == '__main__':

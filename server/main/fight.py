@@ -1,3 +1,4 @@
+from typing import List
 from pick import pick
 from server.main.arena import Arena
 from server.main.player import Player
@@ -11,10 +12,10 @@ class Fight:
 
         self.mArena = Arena()
         self.mGameLogger = self.mArena.mGameLogger
-        self.mPlayerList = self.mArena.mPlayerList
+        self.mPlayerList: List[Player()] = self.mArena.mPlayerList
         self.mNumberOfPlayers = len(self.mPlayerList)
         self.mRound = 1
-        self.mNumberOfMinionsInHand = self.getnumberOfMinionsInHands()
+        self.mNumberOfMinionsInHand = self.getNumberOfMinionsInHands
 
         while not self.isGameOver():
             self.startRound()
@@ -38,7 +39,7 @@ class Fight:
     def endRound(self):
         """ Starts a new Round"""                
         self.mRound += 1
-        self.mNumberOfMinionsInHand = self.getnumberOfMinionsInHands()
+        self.mNumberOfMinionsInHand = self.getNumberOfMinionsInHands
         input("press the any key to continue...")
 
     def startRound(self):
@@ -74,8 +75,8 @@ class Fight:
                 else:
                     self.chooseMinion(pPlayer)
         input("press the any key to continue...")
-        
-    
+
+    # TODO LPO move to Arena class
     def clearRingOfDeadBodies(self):
         """ puts dead minions on the graveyard"""
 
@@ -87,7 +88,7 @@ class Fight:
                 self.mArena.mGraveyard.append(entity)                        
         self.mArena.mRing = survivors
     
-
+	# TODO LPO move to Arena class
     def isGameOver(self):
         """looks at all players health and returns true 
         if only one player has more than zero health"""
@@ -105,7 +106,6 @@ class Fight:
                     if noMinionsLeftToPlay:
                         self.whoWon(playersAlive)
                         return True
-                return False
             else:
                 return False
 
@@ -116,37 +116,53 @@ class Fight:
             else:                    
                 self.whoWon(playersAlive)
                 return True
-        else: #no Player alive            
+        else: #No Player alive
             self.whoWon(playersAlive)
             return True
-    
+
+    # TODO LPO move to arena Class
     def whoWon(self, pPlayersAlive):
         """ Finds the last man standing """
 
         if len(pPlayersAlive) == 0:
             log = "Nobody survived this vicious fight. RIP"
         elif len(pPlayersAlive) == 1:
-            log = str(pPlayersAlive[0].mPlayerName) + " won the fight with " + str(pPlayersAlive[0].mPlayerHealth) + "HP left."
+            log = str(pPlayersAlive[0].mPlayerName) + " won the fight with " + str(pPlayersAlive[0].mPlayerHealth) + \
+                  " HP left."
         else:
             log = "Draw!"
         self.mGameLogger.addString(log)
         
-    def getnumberOfMinionsInHands(self):
-        """looks into all player hands and counts the minions"""
+    # TODO LPO move func to Arena
+    @property
+    def getNumberOfMinionsInHands(self) -> int:
+        """
+Returns the number of minions in this players hand
+        :return: number of minions as int
+        """
         numberOfMinionsInHand = 0
         for player in self.mPlayerList:
             numberOfMinionsInHand += len(player.mDeck.mMinionList)
         return numberOfMinionsInHand
 
-    def getMinionNamesAsList(self, pMinionList):
-        """MinionList -> MinionNameList"""
-        names = []
+	# TODO LPO move to class Minion
+    @staticmethod
+    def getMinionNamesAsList(pMinionList: List) -> List[str]:
+        """
+Converts a list of Minion objects  into a list of names of the minions
+        :param pMinionList:
+        :return: List of names
+        """
+        names: List[str] =[]
         for minion in pMinionList:
             names.append(minion.mMinionName)
         return names
     
     def endGame(self):
-        endlog = "#############GAME OVER#############"    
+        """
+Just adds GAME OVER to the gamelogger
+        """
+        endlog = "#############GAME OVER#############"
         self.mGameLogger.addString(endlog)
         input("press the any key to continue...")
 

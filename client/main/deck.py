@@ -153,7 +153,7 @@ class Deck:
 
 		import json
 		import os
-		path = './decks/'
+		path = './decks/decks/'
 		pathfilename = path + pDeckDict['filename']
 		with open(pathfilename, 'w') as f:
 			json.dump(pDeckDict, f)

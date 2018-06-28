@@ -132,6 +132,7 @@ class Deck:
 
 		from common.main.browsedecks import BrowseDecks
 		browseDeck = BrowseDecks(False)
+		browseDeck.browseDecks()
 		return browseDeck.mDeck
 
 	@staticmethod

@@ -10,22 +10,22 @@ from common.main.minion import Minion
 from common.main.skill import Skill
 from server.main.player import Player
 from client.test.testutils import MockTime
-
+from testsuite import TestUtils
 
 
 
 class TestDeck(unittest.TestCase):
     """ Testclass for class Deck from client.main.deck """
 
-    # Disable print
-    @staticmethod
-    def blockPrint():
-        sys.stdout = None 
+    # # Disable print
+    # @staticmethod
+    # def blockPrint():
+    #     sys.stdout = None 
 
-    # Restore print
-    @staticmethod
-    def enablePrint():
-        sys.stdout = sys.__stdout__
+    # # Restore print
+    # @staticmethod
+    # def enablePrint():
+    #     sys.stdout = sys.__stdout__
 
     @classmethod
     def setUpClass(cls):        
@@ -68,6 +68,8 @@ class TestDeck(unittest.TestCase):
 
     @patch("client.main.deck.Deck.timenow", return_value = MockTime)
     def test_autoFilename(self, pTesttime):
+        """ test for method: autoFilename"""
+
         filename = self.deck.autoFilename
         self.assertEqual(filename, "0-1-2-345_Tester_0.json")
 
@@ -75,9 +77,9 @@ class TestDeck(unittest.TestCase):
         """ test for method: setMaxAttributePoint"""
 
         with patch('client.main.deck.Deck.getInput_setMaxAttributePoints', return_value = 2):
-            self.blockPrint()
+            TestUtils.blockPrint()
             self.deck.setMaxAttributePoints()
-            self.enablePrint()
+            TestUtils.enablePrint()
         self.assertEqual(self.deck.mMaxAttributePoints , 2)
 
         self.deck.mMaxAttributePoints = 0
@@ -86,17 +88,13 @@ class TestDeck(unittest.TestCase):
         for i in inputs:
             try: 
                 with patch('client.main.deck.Deck.getInput_setMaxAttributePoints', return_value=i):
-                    self.blockPrint()
+                    TestUtils.blockPrint()
                     self.deck.setMaxAttributePoints()
-                    self.enablePrint()
+                    TestUtils.enablePrint()
             except RecursionError:
                 self.assertEqual(self.deck.mMaxAttributePoints , 0)
 
-    # @patch('common.main.minion.Minion.getInput_setUniqueName', return_value = "" )
-    # @patch('common.main.minion.Minion.getInput_setHealthPoints', return_value = 1 )
-    # @patch('common.main.minion.Minion.getInput_setAttackPoints', return_value = 1 )
-    # @patch('pick.Picker.start', return_value = ("Attack Face", 0) )
-    def test_createMinion(self):#, mock_name, mock_hp, mock_attack, mock_pick):
+    def test_createMinion(self):
         """ test for method: createMinion"""
 
         self.deck.mMinionList = []
@@ -108,18 +106,11 @@ class TestDeck(unittest.TestCase):
                                 self.deck.createMinions(0)
                                 self.assertListEqual(self.deck.mMinionList, [])
 
-                                self.blockPrint()
+                                TestUtils.blockPrint()
                                 self.deck.createMinions(2)
-                                self.enablePrint()
+                                TestUtils.enablePrint()
                                 self.assertEqual(len(self.deck.mMinionList), 1 )
-
-                                try: 
-                                    self.blockPrint()
-                                    self.deck.createMinions(3)
-                                    self.enablePrint()
-                                except RecursionError:  # because unable to set unique name
-                                    self.assertEqual(len(self.deck.mMinionList), 1)
-
+                                                                    
     def test_chooseDeckName(self):
         """ test for method: chooseDeckName"""
 
@@ -177,7 +168,9 @@ class TestDeck(unittest.TestCase):
         filename = "./decks/test.json"
 
         try:
+            TestUtils.blockPrint()
             self.deck.saveDeck(self.testdictionary)
+            TestUtils.enablePrint()
             with open(filename) as f:
                     content = json.load(f)
         finally:

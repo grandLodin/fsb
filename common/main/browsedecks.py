@@ -8,11 +8,11 @@ class BrowseDecks:
 
     def __init__(self, pIsinBrowseMode):
         self.mIsDeckSelected = False
-        self.mPath = "./decks/"
+        self.mPath = "./decks/decks/"
         self.mDeck = Deck()
         self.mDeckName = str
         self.mIsinBrowseMode = pIsinBrowseMode
-        self.browseDecks()
+        #self.browseDecks()
         
 
     def browseDecks(self):
@@ -21,9 +21,7 @@ class BrowseDecks:
 
         while self.mIsDeckSelected == False:                
             
-            title = "Choose a deck"
-            options = os.listdir(self.mPath)
-            select, index = pick(options, title)
+            select, options, index = self.getInput_pickDeck(self.mPath, "Choose a deck")
             print("Chosen deck: "+ select)
         
             with open(self.mPath+options[index]) as f:
@@ -31,12 +29,12 @@ class BrowseDecks:
             print(Deck.printDeck(deckDict))
 
             if self.mIsinBrowseMode:
-                cont = input("Do you want to continue browsing? (y/n)  ")
+                cont = self.getInput_YesOrNo("Do you want to continue browsing? (y/n)  ")
                 if cont == "y":
                     self.browseDecks()
                 self.mIsDeckSelected = True
             else:
-                done = input("Do you want to take this Deck? (y/n)  ")
+                done = self.getInput_YesOrNo("Do you want to take this Deck? (y/n)  ")
                 if done == "y":
                     self.mDeck = deckDict
                     self.mDeckName = select
@@ -44,5 +42,18 @@ class BrowseDecks:
                 else:
                     self.browseDecks()
 
+####### Getter for Inputs. Needed for Mocks ##########
+
+    @staticmethod
+    def getInput_pickDeck(pPath, pText):
+        title = pText
+        options = os.listdir(pPath)
+        select, index = pick(options, title)
+        return select, options, index
+
+    @staticmethod
+    def getInput_YesOrNo(pText):
+        ans = str(input(pText)).lower()
+        return ans
 
         

@@ -1,11 +1,16 @@
+import sys
 import unittest
-from client.test.test_deck import TestDeck
+
 
 if __name__ == '__main__':
     # Run only the tests in the specified classes
 
+    sys.path.append('././')
+    from client.test.test_deck import TestDeck
+    from common.test.test_browsedeck import TestBrowseDecks
+
     # Add TestClasses in this list
-    test_classes_to_run = [TestDeck]
+    test_classes_to_run = [TestDeck, TestBrowseDecks]
 
     loader = unittest.TestLoader()
 
@@ -18,3 +23,17 @@ if __name__ == '__main__':
 
     runner = unittest.TextTestRunner()
     results = runner.run(big_suite)
+
+class TestUtils:
+    """Class with static Methods for Unittesting"""
+
+    # Disable print
+    @staticmethod
+    def blockPrint():
+        sys.stdout = None 
+
+    # Restore print
+    @staticmethod
+    def enablePrint():
+        sys.stdout = sys.__stdout__
+

@@ -14,8 +14,8 @@ from client.test.testutils import MockTime
 
 
 
-class TestDeck(unittest.TestCase):
-    """ Testclass for class Deck from client.main.deck """
+class TestBrowseDecks(unittest.TestCase):
+    """ Testclass for class BrowseDecks from common.main.browsedeck """
 
     # Disable print
     @staticmethod

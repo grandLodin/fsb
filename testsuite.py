@@ -1,5 +1,3 @@
-import sys
-sys.path.append('././')
 import unittest
 from client.test.test_deck import TestDeck
 

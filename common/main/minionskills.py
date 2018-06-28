@@ -1,6 +1,6 @@
 import sys
 
-from common.skill import Skill
+from common.main.skill import Skill
 
 class MinionSkills:
     """Client class. This class contains the dialog to create a deck with minions."""

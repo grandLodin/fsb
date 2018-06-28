@@ -1,6 +1,6 @@
 import datetime
 from builtins import print, TypeError
-from common.minion import Minion
+from common.main.minion import Minion
 
 
 # noinspection PyAttributeOutsideInit,
@@ -130,7 +130,7 @@ class Deck:
 	def selectDeck():
 		"""Method to select a deck Returns a dictionary"""
 
-		from common.browsedecks import BrowseDecks
+		from common.main.browsedecks import BrowseDecks
 		browseDeck = BrowseDecks(False)
 		return browseDeck.mDeck
 

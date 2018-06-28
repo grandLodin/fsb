@@ -1,6 +1,6 @@
 from typing import List
 
-from common.minion import Minion
+from common.main.minion import Minion
 from server.main.gamelogger import GameLogger
 from server.main.player import Player
 

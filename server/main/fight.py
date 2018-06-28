@@ -2,7 +2,7 @@ from typing import List
 from pick import pick
 from server.main.arena import Arena
 from server.main.player import Player
-from common.minion import Minion
+from common.main.minion import Minion
 
 
 class Fight:
@@ -10,6 +10,7 @@ class Fight:
 
     def __init__(self):
 
+        # TODO LPO: Fight should be in arena and not vice versa
         self.mArena = Arena()
         self.mGameLogger = self.mArena.mGameLogger
         self.mPlayerList: List[Player()] = self.mArena.mPlayerList

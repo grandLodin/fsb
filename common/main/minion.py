@@ -1,8 +1,8 @@
 import sys
 from pick import pick
 
-from common.minionskills import MinionSkills
-from common.skill import Skill
+from common.main.minionskills import MinionSkills
+from common.main.skill import Skill
 from server.main.gamelogger import GameLogger
 
 class Minion:
@@ -18,7 +18,7 @@ class Minion:
         self.mAttackPoints = int
         self.mHealthPoints = int
         self.mCurrentHealthPoints = int 
-        self.mAttributePointsLeft = int
+        self.mAttributePointsLeft = int # TODO LPO should belong to class deck
         self.mNumberOfSkills = int
         self.mSkills = []
         self.mDead = False

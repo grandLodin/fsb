@@ -1,8 +1,8 @@
 import os
 
 from client.main.deck import Deck
-from common.browsedecks import BrowseDecks
-from common.minion import Minion
+from common.main.browsedecks import BrowseDecks
+from common.main.minion import Minion
 from server.main.gamelogger import GameLogger
 
 class Player():

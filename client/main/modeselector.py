@@ -29,7 +29,7 @@ class ModeSelector:
 
         if index == 2:
             print("You choose: " + choice)
-            from common.browsedecks import BrowseDecks
+            from common.main.browsedecks import BrowseDecks
             BrowseDecks(True)
             self.mLoop = True
 

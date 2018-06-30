@@ -136,25 +136,25 @@ class TestDeck(unittest.TestCase):
     def test_parseDeck(self):
         """ tests method: parseDeck"""
 
-        deckDict = {"deckname": "test_", "filename": "test.json_", "Creatorname": "Tester_", "maxAttrPoints": "4", "minions": {"testminion_": {"minionName": "testminion_", "attack": "2", "hp": "2", "skills": ["Attack Face"]}}}
-        self.deck.parseDeck(deckDict, self.player.mPlayerName)
+        #deckDict = self.testdictionary
+        self.deck.parseDeck(self.testdictionary, self.player.mPlayerName)
 
         self.assertEqual(self.deck.mDeckName, "test_")
-        self.assertEqual(self.deck.mFilename, "test.json_")
+        self.assertEqual(self.deck.mFilename, "test.json")
         self.assertEqual(self.deck.mCreatorname, "Tester_")
         self.assertEqual(self.deck.mMaxAttributePoints, 4)
         self.assertEqual(len(self.deck.mMinionList), 1)
-        self.assertEqual(self.deck.mDeckDict, deckDict)
+        self.assertEqual(self.deck.mDeckDict, self.testdictionary)
 
     #selectDeck not tested. Called method will be tested in test_browsedeck
 
     def test_findMinionsInDeck(self):
         """tests method: findMinionsInDeck"""
 
-        deckDict = {"deckname": "test_", "filename": "test.json_", "Creatorname": "Tester_", "maxAttrPoints": "4", "minions": {"testminion_": {"minionName": "testminion_", "attack": "2", "hp": "2", "skills": ["Attack Face"]}}}
-        playername = "Tester"
+        #deckDict = {"deckname": "test_", "filename": "testdeck.json_", "Creatorname": "Tester_", "maxAttrPoints": "4", "minions": {"testminion_": {"minionName": "testminion_", "attack": "2", "hp": "2", "skills": ["Attack Face"]}}}
+        #playername = "Tester"
 
-        minionlist = self.deck.findMinionsInDeck(deckDict, playername)
+        minionlist = self.deck.findMinionsInDeck(self.testdictionary, self.player.mPlayerName)
 
         self.assertIsNotNone(minionlist)
         self.assertEqual(len(minionlist), 1)
@@ -165,7 +165,7 @@ class TestDeck(unittest.TestCase):
         deckDict = {"deckname": "test_", "filename": "test.json", "Creatorname": "Tester_",
                     "maxAttrPoints": "4", "minions": {"testminion_": {"minionName": "testminion_", "attack": "2",
                                                                       "hp": "2", "skills": ["Attack Face"]}}}
-        filename = "./decks/test.json"
+        filename = "./decks/decks/test.json"
 
         try:
             TestUtils.blockPrint()

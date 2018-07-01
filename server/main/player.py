@@ -1,16 +1,13 @@
+from server.main.entity import Entity
 
 
-class Player:
+class Player(Entity):
     """Class for Entity Player"""
 
     def __init__(self):
-        self.mGameLogger = GameLogger()
-        self.mPlayerName = str 
-        self.mDeck = Deck()
 
-        self.mPlayerHealth = int
-        self.mCurrentHealthPoints = int
-        self.mDead = False
+        super().__init__()
+        self.mDeck = Deck()
 
     def setUniquePlayerName(self, pPlayerlist):
         """Checks if Player Name has already been choosen"""
@@ -31,9 +28,9 @@ class Player:
         
     def setInitialPlayerHealth(self, pNexusHealth):
         """ """
-        self.mPlayerHealth = pNexusHealth
-        self.mCurrentHealthPoints = self.mPlayerHealth
-    
+        self.mHealthPoints = pNexusHealth
+        self.mCurrentHealthPoints = self.mHealthPoints
+
     def setDeck(self):
         """set the mDeck member for Class Player"""
 
@@ -59,13 +56,6 @@ class Player:
         """ returns True if Minionlist is empty """
         return len(self.mDeck.mMinionList) > 0
 
-    def isDead(self):
-        """ returns true is current hp of player is below 1"""
-        if self.mCurrentHealthPoints < 1:
-            self.mDead = True
-            log = self.mPlayerName + " died.\n" 
-            self.mGameLogger.mLogString = log
 
 
 from client.main.deck import Deck
-from server.main.gamelogger import GameLogger

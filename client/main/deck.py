@@ -1,6 +1,5 @@
 import datetime
-from builtins import print, TypeError
-
+from builtins import print
 
 
 # noinspection PyAttributeOutsideInit,
@@ -44,7 +43,7 @@ class Deck:
 		try:
 			maxAttrPoints = self.getInput_setMaxAttributePoints(
 				"How many attribute points should your deck have in total? ")
-			if maxAttrPoints > 0:
+			if int(maxAttrPoints) > 0:
 				self.mMaxAttributePoints = maxAttrPoints
 			else:
 				print("Invalid Value! Must be higher than 0")
@@ -165,5 +164,6 @@ class Deck:
 	@staticmethod
 	def getInput_chooseDeckName(pText):
 		return str(input(pText))
+
 
 from common.main.minion import Minion

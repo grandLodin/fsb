@@ -1,5 +1,3 @@
-import sys
-
 from common.main.skill import Skill
 
 class MinionSkills:
@@ -60,7 +58,7 @@ class MinionSkills:
         """returns a list of all equiped skills"""
         equipSkills = []
         for skill in self.mSkillList:
-            if skill.mEquipped == True:
+            if skill.mEquipped:
                 equipSkills.append(skill)
         return equipSkills
     

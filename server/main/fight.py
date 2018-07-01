@@ -23,7 +23,7 @@ class Fight:
 			input("press the any key to continue to the fight...")
 			if self.mNumberOfMinionsInHand > 0:
 				for player in self.mPlayerList:
-					if not player.mDead:
+					if not player.isDead:
 						self.chooseMinion(player)
 			self.fight()
 			self.clearRingOfDeadBodies()
@@ -84,7 +84,7 @@ class Fight:
 
 		survivors = []
 		for entity in self.mArena.mRing:
-			if not entity.mDead:
+			if not entity.isDead:
 				survivors.append(entity)
 			else:
 				self.mArena.mGraveyard.append(entity)
@@ -97,7 +97,7 @@ class Fight:
 
 		playersAlive = []
 		for player in self.mPlayerList:
-			if not player.mDead:
+			if not player.isDead:
 				playersAlive.append(player)
 		if len(playersAlive) > 1:
 			if self.mArena.noMinionsInRing():
@@ -129,8 +129,8 @@ class Fight:
 		if len(pPlayersAlive) == 0:
 			log = "Nobody survived this vicious fight. RIP"
 		elif len(pPlayersAlive) == 1:
-			log = str(pPlayersAlive[0].mPlayerName) + " won the fight with " + str(pPlayersAlive[0].mPlayerHealth) + \
-				  " HP left."
+			log = str(pPlayersAlive[0].mPlayerName) + " won the fight with " +\
+			      str(pPlayersAlive[0].mCurrentHealthPoints) + " HP left."
 		else:
 			log = "Draw!"
 		self.mGameLogger.addString(log)

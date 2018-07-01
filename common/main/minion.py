@@ -1,25 +1,19 @@
-from typing import Type, List
+from typing import List
 from pick import pick
 
+from server.main.entity import Entity
 
-class Minion:
+
+class Minion(Entity):
 	"""Client class. This class creates a Minion entity."""
-	mAttributePointsLeft: Type[int]
-	mMinionName: Type[str]
 
 	def __init__(self):
 		""" Constructor of the class CreateMinion . """
 
-		self.mId = int
-		self.mGameLogger = GameLogger()
-		self.mPlayerName = str
-		self.mMinionName = str
-		self.mAttackPoints = int
-		self.mHealthPoints = int
-		self.mCurrentHealthPoints = int
-		self.mNumberOfSkills = int
-		self.mSkills = []
-		self.mDead = False
+		super().__init__()
+		self.mMinionName = str()
+		self.mAttackPoints = int()
+		self.mNumberOfSkills = int()
 
 	def attack(self, pRing):
 		"""Looks throug a List and adds them to a new List if enemy
@@ -51,7 +45,7 @@ class Minion:
 		""" looks through Ring and returns true is enemy Minions ar present """
 
 		for item in pEnemies:
-			if isinstance(item, Minion):  # item.__class__.__name__ == "Minion":
+			if isinstance(item, Minion):
 				return True
 		return False
 
@@ -62,7 +56,7 @@ class Minion:
 
 		enemies = []
 		for item in pEnemies:
-			if not isinstance(item, Player):  # item.__class__.__name__ == "Player":
+			if not isinstance(item, Player):
 				enemies.append(item)
 		return enemies
 
@@ -70,7 +64,7 @@ class Minion:
 		"""Deals damage to minion or player"""
 
 		pTarget.mCurrentHealthPoints -= self.mAttackPoints
-		self.logDamage(pTarget)
+		GameLogger.logDamage(self, pTarget)
 
 	def createMinionDialog(self, pOtherMinionsList, pAttributePointsLeft):
 		"""A dialog to create a Minion"""
@@ -113,7 +107,7 @@ class Minion:
 				print("Value has to be of type integer")
 				attackPoints = attributePointsLeft
 			if attackPoints >= attributePointsLeft or attackPoints < 0:
-				print("Invalide Attack value! Choose a value between 0 and " + str(attributePointsLeft - 1))
+				print("Invalid attack value! Choose a value between 0 and " + str(attributePointsLeft - 1))
 				return self.setAttackPoints(pAttributePoints)
 			else:
 				self.mAttackPoints = attackPoints
@@ -153,9 +147,9 @@ class Minion:
 		"""Adds a skill to a minion"""
 
 		pickedSkills = 0
-		while pickedSkills < self.mNumberOfSkills:
+		minionSkills = MinionSkills()
+		while pickedSkills < int(self.mNumberOfSkills):
 			title = "Choose a skill for " + pMinionName + ": "
-			minionSkills = MinionSkills()
 			options = minionSkills.getAllSkillNames()
 			skillName, index = pick(options, title)
 			print("picked Skill: " + skillName)
@@ -163,14 +157,6 @@ class Minion:
 			pickedSkills += 1
 
 		return minionSkills.getAllEquipedSkills()
-
-	def isDead(self):
-		""" returns true if hp below 1"""
-
-		if self.mCurrentHealthPoints < 1:
-			self.mDead = True
-			log = str(self.mMinionName) + " died."
-			self.mGameLogger.mLogString = log
 
 	def parseMinion(self, pMinionDict, pPlayername):
 		"""parses a Minion dictioniary to the Object Minion \n
@@ -186,23 +172,6 @@ class Minion:
 		self.mSkills = MinionSkills().findSkillsByNames(pMinionDict["skills"])
 		return self
 
-	def logDamage(self, pTarget):
-		"""
-		:param pTarget: The target of the minion, can be instance of Minion or Player
-		:return: void
-		"""
-
-		log: str
-		if isinstance(pTarget, Minion):
-			log = str(self.mMinionName) + " dealt " + str(
-				self.mAttackPoints) + " damage to " + pTarget.mMinionName + "\n"
-		if isinstance(pTarget, Player):
-			log = str(self.mMinionName) + " dealt " + str(
-				self.mAttackPoints) + " damage to " + pTarget.mPlayerName + "\n"
-		pTarget.mGameLogger.clear()
-		pTarget.isDead()
-		log += pTarget.mGameLogger.mLogString
-		self.mGameLogger.mLogString = log
 
 	@staticmethod
 	def getEquippedSkillNames(pEquipedSkills):
@@ -216,7 +185,7 @@ class Minion:
 	@staticmethod
 	def getMinionNamesAsList(pMinionList: List) -> List[str]:
 		"""
-Converts a list of Minion objects  into a list of names of the minions
+		Converts a list of Minion objects  into a list of names of the minions
 		:param pMinionList:
 		:return: List of names
 		"""

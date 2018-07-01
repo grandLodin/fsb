@@ -48,14 +48,14 @@ class Player(Entity):
 
         enemyMinions = []
         for item in pMinionList:
-            if item.mPlayerName != self.mPlayerName and item.__class__.__name__ == "Minion" :
+            from common.main.minion import Minion
+            if item.mPlayerName != self.mPlayerName and isinstance(item, Minion): # item.__class__.__name__ == "Minion" :
                 enemyMinions.append(item)
         return enemyMinions
 
     def hasMinionsInHand(self):
         """ returns True if Minionlist is empty """
         return len(self.mDeck.mMinionList) > 0
-
 
 
 from client.main.deck import Deck

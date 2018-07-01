@@ -1,5 +1,6 @@
 from common.main.skill import Skill
 
+
 class MinionSkills:
     """Client class. This class contains the dialog to create a deck with minions."""
     
@@ -11,7 +12,6 @@ class MinionSkills:
         self.createSkill("Taunt", "Minion protects own Nexus by blocking Face attack minions")            #ID 2   
 
         self.setSkillIds()
-        
 
     def createSkill(self, pName, pDescription):
         """Creates a skill"""
@@ -54,13 +54,10 @@ class MinionSkills:
             skillNameList.append(skill.mSkillName)
         return skillNameList
 
-    def getAllEquipedSkills(self):
+    def getAllEquippedSkills(self):
         """returns a list of all equiped skills"""
         equipSkills = []
         for skill in self.mSkillList:
             if skill.mEquipped:
                 equipSkills.append(skill)
         return equipSkills
-    
-    
-            

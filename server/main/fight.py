@@ -33,20 +33,20 @@ class Fight:
 	def fight(self):
 		"""all minions fight"""
 		for item in self.mArena.mRing:
-			if item.__class__.__name__ == "Minion":
+			if isinstance(item, Minion):
 				item.attack(self.mArena.mRing)
 				self.mGameLogger.addString(item.mGameLogger.mLogString)
+
+	def startRound(self):
+		startlog = "############## Start of Round -"+str(self.mRound)+"- ##############"
+		self.mGameLogger.clearConsole()
+		self.mGameLogger.addString(startlog)
 
 	def endRound(self):
 		""" Starts a new Round"""
 		self.mRound += 1
 		self.mNumberOfMinionsInHand = self.getNumberOfMinionsInHands
 		input("press the any key to continue...")
-
-	def startRound(self):
-		startlog = "############## Start of Round -"+str(self.mRound)+"- ##############"
-		self.mGameLogger.clearConsole()
-		self.mGameLogger.addString(startlog)
 
 	def chooseMinion(self, pPlayer):
 		"""every player chooses a Minion to deploy"""

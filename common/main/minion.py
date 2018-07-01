@@ -24,7 +24,6 @@ class Minion(Entity):
 		for item in pRing:
 			if item.mPlayerName != self.mPlayerName:
 				enemies.append(item)
-
 		self.findTarget(enemies)
 
 	def findTarget(self, pEnemies):
@@ -40,6 +39,7 @@ class Minion(Entity):
 			else:  # attack player
 				self.findTarget([pEnemies[0]])
 
+	# TODO LPO: make it more general isSubclassInRing(subclass, pEnemies)
 	@staticmethod
 	def areEnemyMinionsInRing(pEnemies):
 		""" looks through Ring and returns true is enemy Minions ar present """
@@ -49,6 +49,7 @@ class Minion(Entity):
 				return True
 		return False
 
+	# TODO LPO: make it more general removeSubclassFromEnemies(subclass, pEnemies)
 	@staticmethod
 	def removePlayersFromEnemies(pEnemies):
 		""" goes through a list and removes item if class = Player
@@ -156,7 +157,7 @@ class Minion(Entity):
 			minionSkills.equipSkill(index)
 			pickedSkills += 1
 
-		return minionSkills.getAllEquipedSkills()
+		return minionSkills.getAllEquippedSkills()
 
 	def parseMinion(self, pMinionDict, pPlayername):
 		"""parses a Minion dictioniary to the Object Minion \n
@@ -194,6 +195,7 @@ class Minion(Entity):
 			names.append(minion.mMinionName)
 		return names
 
+	# TODO LPO: convert to __str__
 	@staticmethod
 	def printMinion(pMinion):
 		"""Prints the stats of a minion and returns it as string"""

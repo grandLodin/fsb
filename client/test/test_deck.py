@@ -13,19 +13,8 @@ from client.test.testutils import MockTime
 from testsuite import TestUtils
 
 
-
 class TestDeck(unittest.TestCase):
     """ Testclass for class Deck from client.main.deck """
-
-    # # Disable print
-    # @staticmethod
-    # def blockPrint():
-    #     sys.stdout = None 
-
-    # # Restore print
-    # @staticmethod
-    # def enablePrint():
-    #     sys.stdout = sys.__stdout__
 
     @classmethod
     def setUpClass(cls):        
@@ -66,8 +55,8 @@ class TestDeck(unittest.TestCase):
     
     # createDeckDialog not tested. already covered by other tests
 
-    @patch("client.main.deck.Deck.timenow", return_value = MockTime)
-    def test_autoFilename(self, pTesttime):
+    @patch("client.main.deck.Deck.timenow", return_value=MockTime)
+    def test_autoFilename(self, pMocktime):
         """ test for method: autoFilename"""
 
         filename = self.deck.autoFilename
@@ -92,7 +81,7 @@ class TestDeck(unittest.TestCase):
                     self.deck.setMaxAttributePoints()
                     TestUtils.enablePrint()
             except RecursionError:
-                self.assertEqual(self.deck.mMaxAttributePoints , 0)
+                self.assertEqual(self.deck.mMaxAttributePoints, 0)
 
     def test_createMinion(self):
         """ test for method: createMinion"""
@@ -102,7 +91,7 @@ class TestDeck(unittest.TestCase):
         with patch('common.main.minion.Minion.getInput_setUniqueName', return_value=""):
             with patch('common.main.minion.Minion.getInput_setHealthPoints', return_value=1):
                 with patch('common.main.minion.Minion.getInput_setAttackPoints', return_value=1):
-                    with patch('pick.Picker.start', return_value = ("Attack Face", 0)):
+                    with patch('pick.Picker.start', return_value=("Attack Face", 0)):
                                 self.deck.createMinions(0)
                                 self.assertListEqual(self.deck.mMinionList, [])
 
@@ -136,7 +125,6 @@ class TestDeck(unittest.TestCase):
     def test_parseDeck(self):
         """ tests method: parseDeck"""
 
-        #deckDict = self.testdictionary
         self.deck.parseDeck(self.testdictionary, self.player.mPlayerName)
 
         self.assertEqual(self.deck.mDeckName, "test_")
@@ -150,9 +138,6 @@ class TestDeck(unittest.TestCase):
 
     def test_findMinionsInDeck(self):
         """tests method: findMinionsInDeck"""
-
-        #deckDict = {"deckname": "test_", "filename": "testdeck.json_", "Creatorname": "Tester_", "maxAttrPoints": "4", "minions": {"testminion_": {"minionName": "testminion_", "attack": "2", "hp": "2", "skills": ["Attack Face"]}}}
-        #playername = "Tester"
 
         minionlist = self.deck.findMinionsInDeck(self.testdictionary, self.player.mPlayerName)
 

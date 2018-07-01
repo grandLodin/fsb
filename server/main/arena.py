@@ -9,7 +9,8 @@ class Arena:
     """Arena Object"""
 
     def __init__(self):
-        self.mGameLogger: GameLogger() = GameLogger()
+        self.mGameLogger = GameLogger()
+        self.mGameLogger.clearConsole()
         self.mGameLogger.addString("Game starts. Have fun!")
         self.mPlayerList: List[Player()] = []
         self.mNumberOfPlayers: int = self.howManyPlayers()
@@ -17,6 +18,7 @@ class Arena:
         self.mRing: List = []
         self.mGraveyard: List = []
         self.invitePlayers()
+        self.mGameLogger.clearConsole()
     
     def howManyPlayers(self) -> int:
         """this method sets the number of players """
@@ -26,14 +28,14 @@ class Arena:
             numberOfPlayers = self.getInput_setPlayerNumber("How many players? ")
         except ValueError:
             print("Invalid Value. Value has to be a positive integer.")
-            self.howManyPlayers()
+            return self.howManyPlayers()
         if numberOfPlayers > 0 and type(numberOfPlayers) == int:
             log = "This is a " + str(numberOfPlayers) + " player match"
             self.mGameLogger.addString(log)
             return numberOfPlayers
         else:
             print("Invalid number of players!")
-            self.howManyPlayers()
+            return self.howManyPlayers()
 
     def setNexusHealth(self) -> int:
         """Sets the starting Healthpoints of the Nexuses"""
@@ -55,6 +57,7 @@ class Arena:
         """adds players to the arena"""
         i = 0
         while i < self.mNumberOfPlayers:
+            self.mGameLogger.clearConsole()
             player = Player()
             player.setInitialPlayerHealth(self.mNexusHealth)
             player.setUniquePlayerName(self.mPlayerList)

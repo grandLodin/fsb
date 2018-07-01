@@ -1,7 +1,7 @@
 import os
 import json
 from pick import pick
-from client.main.deck import Deck
+
 
 class BrowseDecks:
     """Lets the user look at all decks """
@@ -12,14 +12,13 @@ class BrowseDecks:
         self.mDeck = Deck()
         self.mDeckName = str
         self.mIsinBrowseMode = pIsinBrowseMode
-        #self.browseDecks()
         
 
     def browseDecks(self):
         """Presents a list of all decks in the directory
         and lets the player select one deck to look at. """
 
-        while self.mIsDeckSelected == False:                
+        while not self.mIsDeckSelected:
             
             select, options, index = self.getInput_pickDeck(self.mPath, "Choose a deck")
             print("Chosen deck: "+ select)
@@ -56,4 +55,5 @@ class BrowseDecks:
         ans = str(input(pText)).lower()
         return ans
 
-        
+
+from client.main.deck import Deck

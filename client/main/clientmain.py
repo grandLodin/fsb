@@ -1,10 +1,10 @@
-import os
 import sys
 
-class ClientMain():
+
+class ClientMain:
     """ Class Main for client """
 
-    if __name__=='__main__':
+    if __name__ == '__main__':
         sys.path.append('././')
     
     from client.main.deck import Deck
@@ -13,5 +13,3 @@ class ClientMain():
     deck.createDeckDialog()
     Deck.saveDeck(deck.createDictionary())
     input("Press the \'any\' key on your keyboard to continue...")
-
-        

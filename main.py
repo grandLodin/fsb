@@ -4,4 +4,3 @@ if __name__ == '__main__':
     loop: bool = True
     while loop:
         loop = ModeSelector().mLoop
-

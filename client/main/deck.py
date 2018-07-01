@@ -1,6 +1,6 @@
 import datetime
 from builtins import print, TypeError
-from common.main.minion import Minion
+
 
 
 # noinspection PyAttributeOutsideInit,
@@ -49,26 +49,18 @@ class Deck:
 			else:
 				print("Invalid Value! Must be higher than 0")
 				self.setMaxAttributePoints()
-
-		except TypeError:
+		except ValueError:
 			print("Invalid Value! Integer expected.")
 			self.setMaxAttributePoints()
 
 	def createMinions(self, pAttributePointsLeft):
 		"""Navigates through the creation of a set of minions"""
 
-		if int(pAttributePointsLeft) > 0:
-			print("Attribute points left: " + str(pAttributePointsLeft))
+		attributePointsLeft = pAttributePointsLeft
+		while attributePointsLeft > 0:
 			minion: Minion = Minion()
-			minion.mAttributePointsLeft = pAttributePointsLeft
-			minion.createMinionDialog(self.mMinionList)
-			if (minion.mAttackPoints + minion.mHealthPoints) > int(pAttributePointsLeft):
-				print("Not enough attribute points available.")
-				self.createMinions(pAttributePointsLeft)
-			else:
-				self.mMinionList.append(minion)
-				attributePointsLeft: int = int(pAttributePointsLeft) - (minion.mAttackPoints + minion.mHealthPoints)
-				self.createMinions(attributePointsLeft)
+			minion, attributePointsLeft = minion.createMinionDialog(self.mMinionList, attributePointsLeft)
+			self.mMinionList.append(minion)
 
 	def chooseDeckName(self):
 		"""Lets the player choose a Name for the Deck """
@@ -173,3 +165,5 @@ class Deck:
 	@staticmethod
 	def getInput_chooseDeckName(pText):
 		return str(input(pText))
+
+from common.main.minion import Minion

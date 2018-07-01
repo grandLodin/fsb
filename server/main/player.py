@@ -1,10 +1,6 @@
-import os
 
-from client.main.deck import Deck
-from common.main.minion import Minion
-from server.main.gamelogger import GameLogger
 
-class Player():
+class Player:
     """Class for Entity Player"""
 
     def __init__(self):
@@ -16,11 +12,10 @@ class Player():
         self.mCurrentHealthPoints = int
         self.mDead = False
 
-
     def setUniquePlayerName(self, pPlayerlist):
         """Checks if Player Name has already been choosen"""
 
-        playerNumber =len(pPlayerlist)+1
+        playerNumber = len(pPlayerlist)+1
         name = str(input("Player" + str(playerNumber) + " choose your Name:\n"))
         isNameUnique = True
         for item in pPlayerlist:
@@ -63,7 +58,6 @@ class Player():
     def hasMinionsInHand(self):
         """ returns True if Minionlist is empty """
         return len(self.mDeck.mMinionList) > 0
-    
 
     def isDead(self):
         """ returns true is current hp of player is below 1"""
@@ -71,3 +65,7 @@ class Player():
             self.mDead = True
             log = self.mPlayerName + " died.\n" 
             self.mGameLogger.mLogString = log
+
+
+from client.main.deck import Deck
+from server.main.gamelogger import GameLogger

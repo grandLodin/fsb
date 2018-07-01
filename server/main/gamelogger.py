@@ -1,21 +1,12 @@
 import os
 import datetime
 
+
 class GameLogger:
     """This Class loggs the game"""
 
     def __init__(self):
-        self.mLogString = "" 
-
-    # # remove or rename
-    # def setGameLog(self, pGameLogger):
-    #     """Setter for self.mLogString."""
-    #     self.mLogString = pGameLogger
-
-    # # remove or rename
-    # def getGameLog(self):
-    #     """Getter for self.mLogString. returns string"""
-    #     return self.mLogString 
+        self.mLogString = ""
 
     def addString(self, pString):
         """adds a String to the logstring"""
@@ -40,3 +31,8 @@ class GameLogger:
     
         decksyspath = os.path.abspath(path)
         print("Game log saved in directory \"" + decksyspath + "\" as " + timestamp +".txt")
+
+
+    @staticmethod
+    def clearConsole():
+        os.system('cls' if os.name=='nt' else 'clear')

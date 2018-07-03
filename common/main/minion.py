@@ -20,10 +20,10 @@ class Minion(Entity):
         param: a List Minions and Players
         returns a List of enemies """
 
-		enemies = []
-		for item in pRing:
-			if item.mPlayerName != self.mPlayerName:
-				enemies.append(item)
+		enemies = [item for item in pRing if not item.mPlayerName == self.mPlayerName]
+		# for item in pRing:
+		# 	if item.mPlayerName != self.mPlayerName:
+		# 		enemies.append(item)
 		self.findTarget(enemies)
 
 	def findTarget(self, pEnemies):
@@ -33,33 +33,11 @@ class Minion(Entity):
 		if len(pEnemies) == 1:
 			self.dealDamage(pEnemies[0])
 		else:
-			if self.areEnemyMinionsInRing(pEnemies):
-				enemies = self.removePlayersFromEnemies(pEnemies)
+			if self.isSubclassInRing(Minion, pEnemies):
+				enemies = self.removeSubclassFromEnemies(Player, pEnemies)
 				self.findTarget([enemies[0]])
 			else:  # attack player
 				self.findTarget([pEnemies[0]])
-
-	# TODO LPO: make it more general isSubclassInRing(subclass, pEnemies)
-	@staticmethod
-	def areEnemyMinionsInRing(pEnemies):
-		""" looks through Ring and returns true is enemy Minions ar present """
-
-		for item in pEnemies:
-			if isinstance(item, Minion):
-				return True
-		return False
-
-	# TODO LPO: make it more general removeSubclassFromEnemies(subclass, pEnemies)
-	@staticmethod
-	def removePlayersFromEnemies(pEnemies):
-		""" goes through a list and removes item if class = Player
-        returns cleaned list """
-
-		enemies = []
-		for item in pEnemies:
-			if not isinstance(item, Player):
-				enemies.append(item)
-		return enemies
 
 	def dealDamage(self, pTarget):
 		"""Deals damage to minion or player"""
@@ -173,14 +151,25 @@ class Minion(Entity):
 		self.mSkills = MinionSkills().findSkillsByNames(pMinionDict["skills"])
 		return self
 
+	@staticmethod
+	def isSubclassInRing(pSubclass, pEnemies) -> bool:
+		""" looks through Ring and returns true if no enemy subclass like Minion or player are present """
+
+		subclassEntities = [item for item in pEnemies if isinstance(item, pSubclass)]
+		return len(subclassEntities) > 0
+
+	@staticmethod
+	def removeSubclassFromEnemies(pSubclass, pEnemies) -> list:
+		""" goes through a list and removes item if class = pSubclass
+        returns cleaned list """
+
+		return [item for item in pEnemies if not isinstance(item, pSubclass)]
 
 	@staticmethod
 	def getEquippedSkillNames(pEquipedSkills):
 		"""Returns a String of all Names of equiped skills. \n
         parameter: a List of equiped skills"""
-		skillNames = []
-		for skill in pEquipedSkills:
-			skillNames.append(skill.mSkillName)
+		skillNames = [skill.mSkillName for skill in pEquipedSkills]
 		return ','.join(skillNames)
 
 	@staticmethod
@@ -190,20 +179,14 @@ class Minion(Entity):
 		:param pMinionList:
 		:return: List of names
 		"""
-		names: List[str] =[]
-		for minion in pMinionList:
-			names.append(minion.mMinionName)
-		return names
+		return [minion.mMinionName for minion in pMinionList]
 
-	# TODO LPO: convert to __str__
-	@staticmethod
-	def printMinion(pMinion):
-		"""Prints the stats of a minion and returns it as string"""
+	def __str__(self):
+		log = "\n\t" + str(self.mMinionName + "(" + str(self.mAttackPoints) + "/" + str(
+			self.mHealthPoints) + ") \n\t\tSkills:")
 
-		log = "\n\t" + str(pMinion.mMinionName + "(" + str(pMinion.mAttackPoints) + "/" + str(
-			pMinion.mHealthPoints) + ") \n\t\tSkills:")
-		for skill in pMinion.mSkills:
-			log += "\n" + Skill.printSkill(skill)
+		for skill in self.mSkills:
+			log += "\n" + str(skill)
 		return log
 
 # ============== Getter for Inputs. Needed for Mocks ================
@@ -222,6 +205,5 @@ class Minion(Entity):
 
 
 from common.main.minionskills import MinionSkills
-from common.main.skill import Skill
 from server.main.gamelogger import GameLogger
 from server.main.player import Player

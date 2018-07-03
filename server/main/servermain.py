@@ -7,8 +7,8 @@ class ServerMain:
     if __name__ == '__main__':
         sys.path.append('././')
 
-    from server.main.fight import Fight
+    from server.main.arena import Arena
     
-    fight = Fight()
+    fight = Arena()
     fight.mGameLogger.writeLog()
     input("Press the any key to continue...")

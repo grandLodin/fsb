@@ -1,9 +1,5 @@
 from typing import List
 
-from common.main.minion import Minion
-from server.main.gamelogger import GameLogger
-from server.main.player import Player
-
 
 class Arena:
     """Arena Object"""
@@ -19,6 +15,7 @@ class Arena:
         self.mGraveyard: List = []
         self.invitePlayers()
         self.mGameLogger.clearConsole()
+        self.mFight = Fight(self)
     
     def howManyPlayers(self) -> int:
         """this method sets the number of players """
@@ -29,7 +26,7 @@ class Arena:
         except ValueError:
             print("Invalid Value. Value has to be a positive integer.")
             return self.howManyPlayers()
-        if numberOfPlayers > 0 and type(numberOfPlayers) == int:
+        if numberOfPlayers > 0:
             log = "This is a " + str(numberOfPlayers) + " player match"
             self.mGameLogger.addString(log)
             return numberOfPlayers
@@ -39,19 +36,19 @@ class Arena:
 
     def setNexusHealth(self) -> int:
         """Sets the starting Healthpoints of the Nexuses"""
-        global nexushealth
+
         try:
             nexushealth = self.getInput_setNexusHealth("Set Nexus health for each player: ")
         except ValueError:
             print("Value has to be of type integer")
-            nexushealth = 0        
-        if nexushealth > 0 and type(nexushealth) == int:
+            return self.setNexusHealth()
+        if nexushealth > 0:
             log = "Nexus health was set to " + str(nexushealth)
             self.mGameLogger.addString(log)
             return nexushealth
         else:
             print("Invalid Value. Value has to be a positive integer.")
-            self.setNexusHealth()
+            return self.setNexusHealth()
 
     def invitePlayers(self):
         """adds players to the arena"""
@@ -67,15 +64,21 @@ class Arena:
             self.mGameLogger.addString(player.mGameLogger.mLogString)
             i += 1
 
-    def noMinionsInRing(self) -> int:
+    @property
+    def noMinionsInRing(self) -> bool:
         """ returns True if no minion in the ring
-        @:returns number of Players as int """
+        @:returns Boolean """
         
-        minionsInRing: List[Minion()] = []
-        for item in self.mRing:
-            if item.__class__.__name__ == "Minion":
-                minionsInRing.append(item)
+        minionsInRing = [item for item in self.mRing if isinstance(item, Minion)]
         return len(minionsInRing) == 0
+
+    @property
+    def noMinionsInHand(self) -> bool:
+        """ returns True if no no Player has Minions left in hand to play
+        @:returns Boolean """
+
+        playersWithMinionsInHand = [player for player in self.mPlayerList if player.hasMinionsInHand()]
+        return len(playersWithMinionsInHand) == 0
 
 
 ######## Getter for Inputs. Needed for Mocks ###########
@@ -87,3 +90,10 @@ class Arena:
     @staticmethod
     def getInput_setNexusHealth(pText) -> int:
         return int(input(pText))
+
+
+from common.main.minion import Minion
+from server.main.gamelogger import GameLogger
+from server.main.player import Player
+from server.main.fight import Fight
+

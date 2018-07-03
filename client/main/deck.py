@@ -7,13 +7,13 @@ class Deck:
 	"""Client class. This class contains the dialog to create a deck with minions."""
 
 	def __init__(self):
-		self.mLog: str
-		self.mFilename: str
-		self.mDeckName: str
-		self.mCreatorname: str
-		self.mMaxAttributePoints: int
-		self.mMinionList: list = []
-		self.mDeckDict: dict = {}
+		self.mLog = str()
+		self.mFilename = str()
+		self.mDeckName = str()
+		self.mCreatorname = str()
+		self.mMaxAttributePoints = int()
+		self.mMinionList = list()
+		self.mDeckDict = dict()
 
 	def createDeckDialog(self):
 		"""Navigates through the steps necessary to create a Deck """
@@ -22,7 +22,8 @@ class Deck:
 		self.chooseDeckName()
 		self.setMaxAttributePoints()
 		self.createMinions(self.mMaxAttributePoints)
-		Deck.printDeck(self.createDictionary())
+		print(str(self))
+		self.mDeckDict = self.createDictionary()
 
 	@property
 	def autoFilename(self):
@@ -106,7 +107,7 @@ class Deck:
 		return self
 
 	@staticmethod
-	def printDeck(pDeckDict):
+	def printDeckDict(pDeckDict):
 		"""prints a Deck as string"""
 
 		log = "\n\tCreator of the deck: " + pDeckDict['Creatorname']
@@ -114,7 +115,16 @@ class Deck:
 		log += "\n\tAttribute points spent: " + str(pDeckDict['maxAttrPoints'])
 		log += "\n\tMinions:"
 		for minion in Deck.findMinionsInDeck(pDeckDict, ""):
-			log += Minion.printMinion(minion)
+			log += str(minion)
+		return log
+
+	def __str__(self):
+		log = "\n\tCreator of the deck: " + self.mCreatorname
+		log += "\n\tDeckname: " + self.mDeckName
+		log += "\n\tAttribute points spent: " + str(self.mMaxAttributePoints)
+		log += "\n\tMinions:"
+		for minion in self.mMinionList:
+			log += str(minion)
 		return log
 
 	@staticmethod

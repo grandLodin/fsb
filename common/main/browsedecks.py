@@ -25,7 +25,7 @@ class BrowseDecks:
         
             with open(self.mPath+options[index]) as f:
                 deckDict = json.load(f)
-            print(Deck.printDeck(deckDict))
+            print(Deck.printDeckDict(deckDict))
 
             if self.mIsinBrowseMode:
                 cont = self.getInput_YesOrNo("Do you want to continue browsing? (y/n)  ")

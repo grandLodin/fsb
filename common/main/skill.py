@@ -11,10 +11,7 @@ class Skill:
     def skill(self):
         """Base method for Skill"""
         pass
-    
-    @staticmethod
-    def printSkill(pSkill):
-        """Prints the Skill"""
-        log = "\t\t" + pSkill.mSkillName + ", ID: " + str(pSkill.mId) + ", equipped: " + str(pSkill.mEquipped) + "\n\t\t" + pSkill.mDescription
-        return log   
+
+    def __str__(self):
+        return "\t\t" + self.mSkillName + "\n\t\t\t" + self.mDescription
 

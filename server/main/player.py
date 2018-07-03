@@ -37,8 +37,8 @@ class Player(Entity):
         deckDict = Deck.selectDeck()
         self.mDeck = Deck().parseDeck(deckDict, self.mPlayerName)
 
-        log = "\t" + self.mPlayerName + " selected the deck: " + deckDict['filename']
-        log += Deck.printDeck(deckDict)
+        log = "\t" + self.mPlayerName + " selected the deck: " +  deckDict['filename']
+        log += str(self.mDeck)
         self.mGameLogger.addString(log)
 
     def findEnemyMinions(self, pMinionList):

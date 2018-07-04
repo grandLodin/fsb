@@ -61,7 +61,7 @@ class Deck:
 		while attributePointsLeft > 0:
 			minion: Minion = Minion()
 			minion, attributePointsLeft = minion.createMinionDialog(self.mMinionSet, attributePointsLeft)
-			self.mMinionSet.append(minion)
+			self.mMinionSet.add(minion)
 
 	def chooseDeckName(self):
 		"""Lets the player choose a Name for the Deck """
@@ -148,6 +148,8 @@ class Deck:
 			minion = Minion().parseMinion(minionDict[key], str(pPlayerName))
 			minionSet.add(minion)
 		return minionSet
+		# return (Minion().parseMinion(minionDict[key], str(pPlayerName)) for key in minionDict)
+		# creates a generator
 
 	@staticmethod
 	def saveDeck(pDeckDict):

@@ -11,8 +11,7 @@ class BrowseDecks:
         self.mPath = "./decks/decks/"
         self.mDeck = Deck()
         self.mDeckName = str
-        self.mIsinBrowseMode = pIsinBrowseMode
-        
+        self.mIsInBrowseMode = pIsinBrowseMode
 
     def browseDecks(self):
         """Presents a list of all decks in the directory
@@ -27,7 +26,7 @@ class BrowseDecks:
                 deckDict = json.load(f)
             print(Deck.printDeckDict(deckDict))
 
-            if self.mIsinBrowseMode:
+            if self.mIsInBrowseMode:
                 cont = self.getInput_YesOrNo("Do you want to continue browsing? (y/n)  ")
                 if cont == "y":
                     self.browseDecks()

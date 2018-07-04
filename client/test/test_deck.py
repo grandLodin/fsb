@@ -30,7 +30,7 @@ class TestDeck(unittest.TestCase):
         self.deck.mFilename = "test.json"
         self.deck.mCreatorname = "Tester"
         self.deck.mMaxAttributePoints = 0
-        self.deck.mMinionList = []
+        self.deck.mMinionSet = []
         self.deck.mDeckDict = None
 
         self.player.mPlayerName = "TestPlayer"
@@ -86,19 +86,19 @@ class TestDeck(unittest.TestCase):
     def test_createMinion(self):
         """ test for method: createMinion"""
 
-        self.deck.mMinionList = []
+        self.deck.mMinionSet = []
 
         with patch('common.main.minion.Minion.getInput_setUniqueName', return_value=""):
             with patch('common.main.minion.Minion.getInput_setHealthPoints', return_value=1):
                 with patch('common.main.minion.Minion.getInput_setAttackPoints', return_value=1):
                     with patch('pick.Picker.start', return_value=("Attack Face", 0)):
                                 self.deck.createMinions(0)
-                                self.assertListEqual(self.deck.mMinionList, [])
+                                self.assertListEqual(self.deck.mMinionSet, [])
 
                                 TestUtils.blockPrint()
                                 self.deck.createMinions(2)
                                 TestUtils.enablePrint()
-                                self.assertEqual(len(self.deck.mMinionList), 1 )
+                                self.assertEqual(len(self.deck.mMinionSet), 1)
                                                                     
     def test_chooseDeckName(self):
         """ test for method: chooseDeckName"""
@@ -112,7 +112,7 @@ class TestDeck(unittest.TestCase):
     def test_createDictionary(self):
         """ tests method: createDictionary"""
 
-        self.deck.mMinionList = [self.minion]
+        self.deck.mMinionSet = [self.minion]
 
         deckDict = self.deck.createDictionary()
         self.assertIsNotNone(deckDict)
@@ -131,7 +131,7 @@ class TestDeck(unittest.TestCase):
         self.assertEqual(self.deck.mFilename, "test.json")
         self.assertEqual(self.deck.mCreatorname, "Tester_")
         self.assertEqual(self.deck.mMaxAttributePoints, 4)
-        self.assertEqual(len(self.deck.mMinionList), 1)
+        self.assertEqual(len(self.deck.mMinionSet), 1)
         self.assertEqual(self.deck.mDeckDict, self.testdictionary)
 
     #selectDeck not tested. Called method will be tested in test_browsedeck
@@ -139,10 +139,10 @@ class TestDeck(unittest.TestCase):
     def test_findMinionsInDeck(self):
         """tests method: findMinionsInDeck"""
 
-        minionlist = self.deck.findMinionsInDeck(self.testdictionary, self.player.mPlayerName)
+        minionset = self.deck.findMinionsInDeck(self.testdictionary, self.player.mPlayerName)
 
-        self.assertIsNotNone(minionlist)
-        self.assertEqual(len(minionlist), 1)
+        self.assertIsNotNone(minionset)
+        self.assertEqual(len(minionset), 1)
 
     def test_saveDeck(self):
         """tests method: saveDeck"""

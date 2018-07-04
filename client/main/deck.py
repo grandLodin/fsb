@@ -1,8 +1,9 @@
 import datetime
 from builtins import print
 
-
 # noinspection PyAttributeOutsideInit,
+
+
 class Deck:
 	"""Client class. This class contains the dialog to create a deck with minions."""
 
@@ -12,7 +13,7 @@ class Deck:
 		self.mDeckName = str()
 		self.mCreatorname = str()
 		self.mMaxAttributePoints = int()
-		self.mMinionList = list()
+		self.mMinionSet = set()
 		self.mDeckDict = dict()
 
 	def createDeckDialog(self):
@@ -42,15 +43,15 @@ class Deck:
 	def setMaxAttributePoints(self):
 		"""A dialog that sets the maximum attribute points to distribute"""
 		try:
-			maxAttrPoints = self.getInput_setMaxAttributePoints(
-				"How many attribute points should your deck have in total? ")
-			if int(maxAttrPoints) > 0:
-				self.mMaxAttributePoints = maxAttrPoints
-			else:
-				print("Invalid Value! Must be higher than 0")
-				self.setMaxAttributePoints()
+			maxAttrPoints = int(self.getInput_setMaxAttributePoints(
+				"How many attribute points should your deck have in total? "))
 		except ValueError:
 			print("Invalid Value! Integer expected.")
+			self.setMaxAttributePoints()
+		if maxAttrPoints > 0:
+			self.mMaxAttributePoints = maxAttrPoints
+		else:
+			print("Invalid Value! Must be higher than 0")
 			self.setMaxAttributePoints()
 
 	def createMinions(self, pAttributePointsLeft):
@@ -59,8 +60,8 @@ class Deck:
 		attributePointsLeft = pAttributePointsLeft
 		while attributePointsLeft > 0:
 			minion: Minion = Minion()
-			minion, attributePointsLeft = minion.createMinionDialog(self.mMinionList, attributePointsLeft)
-			self.mMinionList.append(minion)
+			minion, attributePointsLeft = minion.createMinionDialog(self.mMinionSet, attributePointsLeft)
+			self.mMinionSet.append(minion)
 
 	def chooseDeckName(self):
 		"""Lets the player choose a Name for the Deck """
@@ -79,7 +80,7 @@ class Deck:
 		dictionary.update({'Creatorname': str(self.mCreatorname)})
 		dictionary.update({'maxAttrPoints': str(self.mMaxAttributePoints)})
 		minionListDict: dict = {}
-		for minion in self.mMinionList:
+		for minion in self.mMinionSet:
 			minionDict: dict = {}
 			minionDict.update({'minionName': str(minion.mMinionName)})
 			minionDict.update({'attack': str(minion.mAttackPoints)})
@@ -102,7 +103,7 @@ class Deck:
 		self.mFilename = pDeckDict['filename']
 		self.mCreatorname = pDeckDict['Creatorname']
 		self.mMaxAttributePoints = int(pDeckDict['maxAttrPoints'])
-		self.mMinionList = Deck.findMinionsInDeck(pDeckDict, pPlayerName)
+		self.mMinionSet = Deck.findMinionsInDeck(pDeckDict, pPlayerName)
 		self.mDeckDict = pDeckDict
 		return self
 
@@ -123,7 +124,7 @@ class Deck:
 		log += "\n\tDeckname: " + self.mDeckName
 		log += "\n\tAttribute points spent: " + str(self.mMaxAttributePoints)
 		log += "\n\tMinions:"
-		for minion in self.mMinionList:
+		for minion in self.mMinionSet:
 			log += str(minion)
 		return log
 
@@ -137,16 +138,16 @@ class Deck:
 		return browseDeck.mDeck
 
 	@staticmethod
-	def findMinionsInDeck(pDeckDict, pPlayerName):
+	def findMinionsInDeck(pDeckDict, pPlayerName) -> set:
 		"""iterates through a deck and finds all minions Returns a List of Minions"""
 
 		minionDict = pDeckDict['minions']
-		minionList = []
+		minionSet = set([])
 
 		for key in minionDict:
 			minion = Minion().parseMinion(minionDict[key], str(pPlayerName))
-			minionList.append(minion)
-		return minionList
+			minionSet.add(minion)
+		return minionSet
 
 	@staticmethod
 	def saveDeck(pDeckDict):
@@ -164,16 +165,16 @@ class Deck:
 ####### Getter for Inputs. Needed for Mocks ##########
 
 	@staticmethod
-	def getInput_CreatorName(pText) -> str:
-		return str(input(pText))
+	def getInput_CreatorName(pText):
+		return input(pText)
 
 	@staticmethod
-	def getInput_setMaxAttributePoints(pText):
+	def getInput_setMaxAttributePoints(pText) -> int:
 		return int(input(pText))
 
 	@staticmethod
 	def getInput_chooseDeckName(pText):
-		return str(input(pText))
+		return input(pText)
 
 
 from common.main.minion import Minion

@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Set
 from pick import pick
 
 from server.main.entity import Entity
@@ -18,12 +18,9 @@ class Minion(Entity):
 	def attack(self, pRing):
 		"""Looks throug a List and adds them to a new List if enemy
         param: a List Minions and Players
-        returns a List of enemies """
+        returns a set of enemies """
 
 		enemies = [item for item in pRing if not item.mPlayerName == self.mPlayerName]
-		# for item in pRing:
-		# 	if item.mPlayerName != self.mPlayerName:
-		# 		enemies.append(item)
 		self.findTarget(enemies)
 
 	def findTarget(self, pEnemies):
@@ -173,13 +170,13 @@ class Minion(Entity):
 		return ','.join(skillNames)
 
 	@staticmethod
-	def getMinionNamesAsList(pMinionList: List) -> List[str]:
+	def getMinionNamesAsList(pMinionSet: Set) -> List[str]:
 		"""
 		Converts a list of Minion objects  into a list of names of the minions
-		:param pMinionList:
+		:param pMinionSet:
 		:return: List of names
 		"""
-		return [minion.mMinionName for minion in pMinionList]
+		return [minion.mMinionName for minion in pMinionSet]
 
 	def __str__(self):
 		log = "\n\t" + str(self.mMinionName + "(" + str(self.mAttackPoints) + "/" + str(

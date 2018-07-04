@@ -1,4 +1,4 @@
-from typing import List
+from typing import Set
 
 
 class Arena:
@@ -8,11 +8,11 @@ class Arena:
         self.mGameLogger = GameLogger()
         self.mGameLogger.clearConsole()
         self.mGameLogger.addString("Game starts. Have fun!")
-        self.mPlayerList: List[Player()] = []
+        self.mPlayerList: Set([Player()]) = set([])
         self.mNumberOfPlayers: int = self.howManyPlayers()
         self.mNexusHealth: int = self.setNexusHealth()
-        self.mRing: List = []
-        self.mGraveyard: List = []
+        self.mRing: set() = set([])
+        self.mGraveyard: set() = set([])
         self.invitePlayers()
         self.mGameLogger.clearConsole()
         self.mFight = Fight(self)
@@ -20,7 +20,6 @@ class Arena:
     def howManyPlayers(self) -> int:
         """this method sets the number of players """
 
-        global numberOfPlayers
         try:
             numberOfPlayers = self.getInput_setPlayerNumber("How many players? ")
         except ValueError:
@@ -59,8 +58,8 @@ class Arena:
             player.setInitialPlayerHealth(self.mNexusHealth)
             player.setUniquePlayerName(self.mPlayerList)
             player.setDeck()
-            self.mPlayerList.append(player)
-            self.mRing.append(player)
+            self.mPlayerList.add(player)
+            self.mRing.add(player)
             self.mGameLogger.addString(player.mGameLogger.mLogString)
             i += 1
 
@@ -69,7 +68,7 @@ class Arena:
         """ returns True if no minion in the ring
         @:returns Boolean """
         
-        minionsInRing = [item for item in self.mRing if isinstance(item, Minion)]
+        minionsInRing = {item for item in self.mRing if isinstance(item, Minion)}
         return len(minionsInRing) == 0
 
     @property
@@ -77,7 +76,7 @@ class Arena:
         """ returns True if no no Player has Minions left in hand to play
         @:returns Boolean """
 
-        playersWithMinionsInHand = [player for player in self.mPlayerList if player.hasMinionsInHand()]
+        playersWithMinionsInHand = {player for player in self.mPlayerList if player.hasMinionsInHand()}
         return len(playersWithMinionsInHand) == 0
 
 

@@ -1,3 +1,4 @@
+from common.main.minion import Minion
 from server.main.entity import Entity
 
 
@@ -14,17 +15,13 @@ class Player(Entity):
 
         playerNumber = len(pPlayerlist)+1
         name = str(input("Player" + str(playerNumber) + " choose your Name:\n"))
-        isNameUnique = True
         for item in pPlayerlist:
             if item.mPlayerName == name:
-                isNameUnique = False
-        if not isNameUnique:
-            print("This Name is not available")
-            self.setUniquePlayerName(pPlayerlist)
-        else:
-            self.mPlayerName = name            
-            log = "Name of Player"+str(playerNumber)+" was set to: " + self.mPlayerName
-            self.mGameLogger.addString(log)
+                print("This Name is not available")
+                self.setUniquePlayerName(pPlayerlist)
+        self.mPlayerName = name
+        log = "Name of Player" + str(playerNumber) + " was set to: " + self.mPlayerName
+        self.mGameLogger.addString(log)
         
     def setInitialPlayerHealth(self, pNexusHealth):
         """ """
@@ -37,25 +34,23 @@ class Player(Entity):
         deckDict = Deck.selectDeck()
         self.mDeck = Deck().parseDeck(deckDict, self.mPlayerName)
 
-        log = "\t" + self.mPlayerName + " selected the deck: " +  deckDict['filename']
+        log = "\t" + self.mPlayerName + " selected the deck: " + deckDict['filename']
         log += str(self.mDeck)
         self.mGameLogger.addString(log)
 
-    def findEnemyMinions(self, pMinionList):
-        """Looks throug a List of Minions and adds them to a List if enemy
+    def findEnemyMinions(self, pMinionSet):
+        """Looks through a set of Minions and adds them to a List if enemy
         param: a List of Minions
-        returns a List of enemy minions """
+        returns a set of enemy minions """
 
-        enemyMinions = []
-        for item in pMinionList:
-            from common.main.minion import Minion
-            if item.mPlayerName != self.mPlayerName and isinstance(item, Minion): # item.__class__.__name__ == "Minion" :
-                enemyMinions.append(item)
-        return enemyMinions
+        return {item for item in pMinionSet if
+                        item.mPlayerName != self.mPlayerName
+                        and isinstance(item, Minion)}
 
     def hasMinionsInHand(self):
-        """ returns True if Minionlist is empty """
-        return len(self.mDeck.mMinionList) > 0
+        """ returns True if Minionset is empty """
+        return len(self.mDeck.mMinionSet) > 0
 
 
 from client.main.deck import Deck
+

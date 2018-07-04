@@ -30,7 +30,7 @@ class TestDeck(unittest.TestCase):
         self.deck.mFilename = "test.json"
         self.deck.mCreatorname = "Tester"
         self.deck.mMaxAttributePoints = 0
-        self.deck.mMinionSet = []
+        self.deck.mMinionSet = set()
         self.deck.mDeckDict = None
 
         self.player.mPlayerName = "TestPlayer"
@@ -86,14 +86,14 @@ class TestDeck(unittest.TestCase):
     def test_createMinion(self):
         """ test for method: createMinion"""
 
-        self.deck.mMinionSet = []
+        self.deck.mMinionSet = set()
 
         with patch('common.main.minion.Minion.getInput_setUniqueName', return_value=""):
             with patch('common.main.minion.Minion.getInput_setHealthPoints', return_value=1):
                 with patch('common.main.minion.Minion.getInput_setAttackPoints', return_value=1):
                     with patch('pick.Picker.start', return_value=("Attack Face", 0)):
                                 self.deck.createMinions(0)
-                                self.assertListEqual(self.deck.mMinionSet, [])
+                                self.assertSetEqual(self.deck.mMinionSet, set())
 
                                 TestUtils.blockPrint()
                                 self.deck.createMinions(2)

@@ -60,7 +60,7 @@ class TestDeck(unittest.TestCase):
         """ test for method: autoFilename"""
 
         filename = self.deck.autoFilename
-        self.assertEqual(filename, "0-1-2-345_Tester_0.json")
+        self.assertEqual(filename, "1985-01-25-113005_Tester_0.json")
 
     def test_setMaxAttributePoint(self):
         """ test for method: setMaxAttributePoint"""

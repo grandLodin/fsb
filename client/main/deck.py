@@ -31,7 +31,7 @@ class Deck:
 		"""creates a filename like: 2018-6-22-2396_Leo_10.json"""
 
 		now = self.timenow()
-		timestamp = '{}-{}-{}-{}{}{}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second)
+		timestamp = '{:04}-{:02}-{:02}-{:02}{:02}{:02}'.format(now.year, now.month, now.day, now.hour, now.minute, now.second)
 		prefixFilename = str(timestamp + "_" + self.mCreatorname + "_" + str(self.mMaxAttributePoints))
 		return prefixFilename + ".json"
 

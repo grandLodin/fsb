@@ -47,6 +47,7 @@ class Player(Entity):
                         item.mPlayerName != self.mPlayerName
                         and isinstance(item, Minion)}
 
+    @property
     def hasMinionsInHand(self):
         """ returns True if Minionset is empty """
         return len(self.mDeck.mMinionSet) > 0

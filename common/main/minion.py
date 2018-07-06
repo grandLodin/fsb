@@ -119,6 +119,11 @@ class Minion(Entity):
 				attributePointsLeft -= self.mHealthPoints
 				return attributePointsLeft
 
+	@property
+	def hasSkill(self, pSkillName):
+		""" Returns True if Skill with givn Skill name is equipped """
+		pass# TODO implement me
+
 	def pickSkill(self, pMinionName):
 		"""Adds a skill to a minion"""
 

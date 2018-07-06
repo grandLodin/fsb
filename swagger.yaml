@@ -1,0 +1,120 @@
+swagger: '2.0'
+info:
+  title: fsb
+  description: fsb server api
+  version: "0.1.0"
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /decks:
+    get:
+      summary: get list of user decks
+      operationId: app.get_decks
+      parameters:
+        - in: header
+          required: true
+          name: userId
+          type: string
+      responses:
+        200:
+          description: getting players decks
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Deck'
+        default:
+          description: error
+          schema:
+            $ref: '#/definitions/Error'
+
+    post:
+      summary: create new deck for player
+      operationId: app.create_deck
+      parameters:
+        - in: header
+          required: true
+          name: userId
+          type: string
+        - in: body
+          name: deck
+          required: true
+          schema:
+            $ref: '#/definitions/Deck'
+      responses:
+        201:
+          description: deck created
+        default:
+          description: error creating deck
+          schema:
+            $ref: '#/definitions/Error'
+
+  /decks/{deckId}:
+    delete:
+      summary: deleting deck
+      operationId: app.delete_deck
+      parameters:
+        - name: deckId
+          in: path
+          required: true
+          type: string
+      responses:
+        204:
+          description: deck deleted successfully
+        default:
+          description: error
+          schema:
+            $ref: '#/definitions/Error'
+
+
+definitions:
+  Deck:
+   type: object
+   properties:
+    id:
+      type: string
+    name:
+      type: string
+    creatorId:
+      type: string
+    minions:
+      type: array
+      items:
+        $ref: '#/definitions/Minion'
+
+  Minion:
+    type: object
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      attack:
+        type: number
+        format: int64
+      hp:
+        type: number
+        format: int64
+      skills:
+        type: array
+        items:
+          $ref: '#/definitions/Skill'
+
+  Skill:
+    type: object
+    properties:
+      id:
+        type: string
+
+
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string

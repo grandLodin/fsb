@@ -3,14 +3,19 @@
 .vscode/settings.json
 .idea/
 *.pyc
+*/**/*.pyc
 *.bat
 gamelogs/
 *.iml
 venv/
 
 
+main.py
+client/main/__pycache__/clientmain.cpython-36.pyc
 # Byte-compiled / optimized / DLL files
 __pycache__/
+
+**/__pycache__
 *.py[cod]
 *$py.class
 

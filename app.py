@@ -4,20 +4,27 @@ import datetime
 import logging
 
 from connexion import NoContent
+from client.main.deckhandler import DeckHandler
+
+deckhandler = DeckHandler()
 
 
 def get_decks():
-    id = connexion.request.headers["userId"]
-    print(id)
-    return [{"id": id}]
+    userId = connexion.request.headers["userId"]
+    return deckhandler.get_decks(userId)
+    
 
 def create_deck(deck):
-    print(deck)
-    return "Created", 201
+    userId = connexion.request.headers["userId"]
+    return deckhandler.create_deck(userId, deck)
+
 
 def delete_deck(deckId):
-    print("Deleted deck " + deckId)
-    return  204
+    userId = connexion.request.headers["userId"]
+    if deckhandler.delete_deck(userId, deckId):
+        return  204
+    else: 
+        return 404
 
 logging.basicConfig(level=logging.INFO)
 app = connexion.App(__name__)

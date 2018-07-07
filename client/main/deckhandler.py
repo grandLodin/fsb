@@ -9,7 +9,7 @@ class DeckHandler:
     def __init__(self, pPath = "./decks/decks"):
         self.mPath = pPath
 
-    def get_decks(self, pUser):        
+    def list_decks(self, pUser):        
 
         dictList = list()
         alldecks_in_dir  = os.listdir(self.mPath)

@@ -11,7 +11,7 @@ paths:
   /decks:
     get:
       summary: get list of user decks
-      operationId: app.get_decks
+      operationId: app.list_decks
       parameters:
         - in: header
           required: true
@@ -28,7 +28,6 @@ paths:
           description: error
           schema:
             $ref: '#/definitions/Error'
-
     post:
       summary: create new deck for player
       operationId: app.create_deck
@@ -45,16 +44,44 @@ paths:
       responses:
         201:
           description: deck created
+          schema:
+            $ref: '#/definitions/Deck'
         default:
           description: error creating deck
           schema:
             $ref: '#/definitions/Error'
 
   /decks/{deckId}:
+    get:
+      summary: getting specific deck
+      operationId: app.get_deck
+      parameters:
+        - in: header
+          required: true
+          name: userId
+          type: string
+        - name: deckId
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: return requested deck
+          schema:
+            $ref: '#/definitions/Deck'
+        default:
+          description: error returning deck
+          schema:
+            $ref: '#/definitions/Error'
+
     delete:
       summary: deleting deck
       operationId: app.delete_deck
       parameters:
+        - in: header
+          required: true
+          name: userId
+          type: string      
         - name: deckId
           in: path
           required: true
@@ -66,9 +93,352 @@ paths:
           description: error
           schema:
             $ref: '#/definitions/Error'
+    put:
+      summary: update specific deck
+      operationId: app.update_deck
+      parameters:
+        - in: header
+          required: true
+          name: userId
+          type: string
+        - name: deckId
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: deck
+          required: true
+          schema:
+            $ref: '#/definitions/Deck'
+      responses:
+        200:
+          description: deck updated sucessfully
+          schema:
+            $ref '#/definitions/Deck'
+        default:
+          description: error
+          schema:
+            $ref: '#/definitions/Error'
 
+  /avatars:
+    get:
+      summary: get list of players avatars
+      operationId: app.list_avatars
+      parameters:
+        - in: header
+          required: true
+          name: userId
+          type: string
+      responses:
+        200:
+          description: getting players avatars
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Avatar'
+        default:
+          description: error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      summary: create new avatar for player
+      operationId: app.create_avatar
+      parameters:
+        - in: header
+          required: true
+          name: userId
+          type: string
+        - in: body
+          name: avatar
+          required: true
+          schema:
+            $ref: '#/definitions/Avatar'
+      responses:
+        201:
+          description: avatar created
+          schema:
+            $ref: '#/definitions/Avatar'
+        default:
+          description: error creating avatar
+          schema:
+            $ref: '#/definitions/Error'
+  /decks/{avatarId}:
+    get:
+      summary: getting specific avatar
+      operationId: app.get_avatar
+      parameters:
+        - in: header
+          required: true
+          name: userId
+          type: string
+        - name: avatarId
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: return requested avatar
+          schema:
+            $ref: '#/definitions/Avatar'
+        default:
+          description: error returning avatar
+          schema:
+            $ref: '#/definitions/Error'
+
+    delete:
+      summary: deleting avatar
+      operationId: app.delete_avatar
+      parameters:
+        - in: header
+          required: true
+          name: userId
+          type: string
+        - name: avatarId
+          in: path
+          required: true
+          type: string
+      responses:
+        204:
+          description: avatar deleted successfully
+        default:
+          description: error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      summary: update specific avatar
+      operationId: app.update_avatar
+      parameters:
+        - in: header
+          required: true
+          name: userId
+          type: string
+        - name: avatarId
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: deck
+          required: true
+          schema:
+            $ref: '#/definitions/Avatar'
+      responses:
+        200:
+          description: avatar updated sucessfully
+          schema:
+            $ref: '#/definitions/Avatar'
+        default:
+          description: error
+          schema:
+            $ref: '#/definitions/Error'
+
+
+  /pits:
+    get:
+      summary: get list of pits
+      operationId: app.list_pits
+      parameters:
+        - in: header
+          required: true
+          name: userId
+          type: string
+      responses:
+        200:
+          description: getting available pits
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Pit'
+        default:
+          description: error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      summary: create new pit
+      operationId: app.create_pit
+      parameters:
+        - in: header
+          required: true
+          name: userId
+          type: string
+        - in: body
+          name: pit
+          required: true
+          schema:
+            $ref: '#/definitions/Pit'
+      responses:
+        201:
+          description: pit created
+          schema:
+            $ref: '#/definitions/Pit'
+        default:
+          description: error creating pit
+          schema:
+            $ref: '#/definitions/Error'
+
+  /pits/{pitId}:
+    get:
+      summary: getting specific pit
+      operationId: app.get_pit
+      parameters:
+        - in: header
+          required: true
+          name: userId
+          type: string
+        - name: pitId
+          in: path
+          required: true
+          type: string
+      responses:
+        200:
+          description: return requested pit
+          schema:
+            $ref: '#/definitions/Pit'
+        default:
+          description: error returning pit
+          schema:
+            $ref: '#/definitions/Error'
+
+    delete:
+      summary: deleting pit
+      operationId: app.delete_pit
+      parameters:
+        - in: header
+          required: true
+          name: userId
+          type: string
+        - name: pitId
+          in: path
+          required: true
+          type: string
+      responses:
+        204:
+          description: pit deleted successfully
+        default:
+          description: error deleting pit
+          schema:
+            $ref: '#/definitions/Error'
+    patch:
+      summary: update specific pit
+      operationId: app.
+      parameters:
+        - in: header
+          required: true
+          name: userId
+          type: string
+        - name: deckId
+          in: path
+          required: true
+          type: string
+        - in: body
+          name: deck
+          required: true
+          schema:
+            $ref: '#/definitions/Deck'
+      responses:
+        200:
+          description: deck updated sucessfully
+          schema:
+            $ref '#/definitions/Deck'
+        default:
+          description: error
+          schema:
+            $ref: '#/definitions/Error'
+
+  /pits/{pitId}/deployedEntities:
+    get:
+      summary: list deployed entities
+      operationId: app.list_deployed_entities
+      parameters:
+        - in: header
+          required: true
+          name: userId
+          type: string
+      responses:
+        200:
+          description:
+          schema:
+            type: array
+            items:
+              oneOf:
+                - $ref: '#/definitions/Minion'
+                - $ref: '#/definitions/Avatar'
+
+        default:
+          description: error getting deployed entities
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      summary:
+      operationId:
+      parameters:
+        - in: header
+          required: true
+          name: userId
+          type: string
+        - in: body
+          required: true
+          schema:
+            oneOf:
+              - $ref: '#/definitions/Minion'
+              - $ref: '#/definitions/Avatar'
+      responses:
+        200:
+          description: minion deployed
+          schema:
+            $ref: '#/definitions/Minion'
+          
+
+
+
+
+########################### Definitions ###########################
 
 definitions:
+  Entity:
+    type: object
+    properties:
+      id:
+        type: string
+      userId:
+        type: string
+      name:
+        type: string
+      hpBase:
+        type: number
+        format: int64
+      hpCurrent:
+        type: number
+        format: int64
+      skills:
+        type: array
+        items:
+          $ref: '#/definitions/Skill'
+
+  Avatar:
+    allOf:
+      - $ref: '#/definitions/Entity'
+      - type: object
+        properties:
+          deck:
+            $ref: '#/definitions/Deck'
+          pitId:
+            type: string
+
+  Minion:
+    allOf:
+      - $ref: '#/definitions/Entity'
+      - type: object
+        properties:
+          attack:
+            type: number
+            format: int64
+
+  Skill:
+    type: object
+    properties:
+      id:
+        type: string
+
   Deck:
    type: object
    properties:
@@ -83,29 +453,23 @@ definitions:
       items:
         $ref: '#/definitions/Minion'
 
-  Minion:
+  Pit:
     type: object
     properties:
-      id:
-        type: string
-      name:
-        type: string
-      attack:
-        type: number
-        format: int64
-      hp:
-        type: number
-        format: int64
-      skills:
+      avatars:
         type: array
         items:
-          $ref: '#/definitions/Skill'
-
-  Skill:
-    type: object
-    properties:
-      id:
-        type: string
+          $ref: '#/definitions/Avatar'
+      joinable:
+        type: boolean
+      deployedMinions:
+        type: array
+        items:
+          $ref: '#/definitions/Minion'
+      graveYard:
+        type: array
+        items:
+          $ref: '#/definitions/Minion'
 
 
   Error:

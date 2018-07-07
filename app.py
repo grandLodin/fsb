@@ -9,9 +9,9 @@ from client.main.deckhandler import DeckHandler
 deckhandler = DeckHandler()
 
 
-def get_decks():
+def list_decks():
     userId = connexion.request.headers["userId"]
-    return deckhandler.get_decks(userId)
+    return deckhandler.list_decks(userId)
     
 
 def create_deck(deck):

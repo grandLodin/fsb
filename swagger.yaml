@@ -162,7 +162,7 @@ paths:
           description: error creating avatar
           schema:
             $ref: '#/definitions/Error'
-  /decks/{avatarId}:
+  /avatars/{avatarId}:
     get:
       summary: getting specific avatar
       operationId: app.get_avatar

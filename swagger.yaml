@@ -217,7 +217,7 @@ paths:
           required: true
           type: string
         - in: body
-          name: deck
+          name: avatar
           required: true
           schema:
             $ref: '#/definitions/Avatar'
@@ -319,73 +319,133 @@ paths:
             $ref: '#/definitions/Error'
     patch:
       summary: update specific pit
-      operationId: app.
+      operationId: app.update_pit
       parameters:
         - in: header
           required: true
           name: userId
           type: string
-        - name: deckId
+        - name: pitId
           in: path
           required: true
           type: string
         - in: body
-          name: deck
+          name: pit
           required: true
           schema:
-            $ref: '#/definitions/Deck'
+            $ref: '#/definitions/Pit'
       responses:
         200:
-          description: deck updated sucessfully
+          description: pit updated sucessfully
           schema:
-            $ref: '#/definitions/Deck'
+            $ref: '#/definitions/Pit'
         default:
           description: error
           schema:
             $ref: '#/definitions/Error'
 
-  /pits/{pitId}/deployedEntities:
+  /pits/{pitId}/deployedMinions:
     get:
       summary: list deployed entities
-      operationId: app.list_deployed_entities
+      operationId: app.list_deployed_minions
       parameters:
         - in: header
           required: true
           name: userId
           type: string
+        - name: pitId
+          in: path
+          required: true
+          type: string          
       responses:
         200:
-          description:
-          schema:
-            type: array
-            items:
-              oneOf:
-                - $ref: '#/definitions/Minion'
-                - $ref: '#/definitions/Avatar'
+          description: getting all deployed minions in pit
+          schema: 
+              type: array
+              items:
+                $ref: '#/definitions/Minion'
 
         default:
-          description: error getting deployed entities
+          description: error getting deployed avatars
           schema:
             $ref: '#/definitions/Error'
     post:
-      summary:
-      operationId:
+      summary: deploy new minion to pit
+      operationId: app.deploy_minion
       parameters:
         - in: header
           required: true
           name: userId
           type: string
+        - name: pitId
+          in: path
+          required: true
+          type: string          
         - in: body
+          name: minion
           required: true
           schema:
-            oneOf:
-              - $ref: '#/definitions/Minion'
-              - $ref: '#/definitions/Avatar'
+            $ref: '#/definitions/Minion'
       responses:
         200:
           description: minion deployed
           schema:
             $ref: '#/definitions/Minion'
+        default:
+          description: error deploying minion
+          schema:
+            $ref: '#/definitions/Error'            
+
+  /pits/{pitId}/deployedAvatars:
+    get:
+      summary: list all deployed avatars in pit
+      operationId: app.list_deployed_avatars
+      parameters:
+        - in: header
+          required: true
+          name: userId
+          type: string
+        - name: pitId
+          in: path
+          required: true
+          type: string          
+      responses:
+        200:
+          description: returning array of avatars
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Avatar'
+        default:
+          description: error getting deployed avatars
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      summary: deploying avatar to pit
+      operationId: app.deploy_avatar
+      parameters:
+        - in: header
+          required: true
+          name: userId
+          type: string
+        - name: pitId
+          in: path
+          required: true
+          type: string          
+        - in: body
+          name: avatar
+          required: true
+          schema:
+            $ref: '#/definitions/Avatar'
+      responses:
+        200:
+          description: avatar deployed
+          schema:
+            $ref: '#/definitions/Avatar'            
+        default:
+          description: error deploying avatar
+          schema:
+            $ref: '#/definitions/Error'            
           
 
 
@@ -456,7 +516,7 @@ definitions:
   Pit:
     type: object
     properties:
-      avatars:
+      deployedAvatars:
         type: array
         items:
           $ref: '#/definitions/Avatar'

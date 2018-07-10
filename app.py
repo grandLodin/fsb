@@ -16,17 +16,64 @@ def create_deck(deck):
     return deck_handler.create_deck(user_id, deck)
 
 
-def get_deck(deck_id):
+def get_deck(deckId):
     user_id = connexion.request.headers["userId"]
-    return deck_handler.get_deck(user_id, deck_id)
+    return deck_handler.get_deck(user_id, deckId)
 
 
-def delete_deck(deck_id):
+def delete_deck(deckId):
     user_id = connexion.request.headers["userId"]
-    if deck_handler.delete_deck(user_id, deck_id):
+    if deck_handler.delete_deck(user_id, deckId):
         return 204
     else: 
         return 404
+
+
+def update_deck(deckId, deck):
+    return 200
+
+def list_avatars():
+    return 200
+
+def create_avatar(avatar):
+    return 201
+
+def get_avatar(avatarId):
+    return 200
+
+def delete_avatar(avatarId):
+    return 204
+
+def update_avatar(avatarId, avatar):
+    return 200
+
+def list_pits():
+    return 200
+
+def create_pit(pit):
+    return 201
+
+def get_pit(pitId):
+    return 200
+
+def delete_pit(pitId):
+    return 204
+
+def update_pit(pitId, pit):
+    return 200
+
+def list_deployed_minions(pitId):
+    return 200
+
+def deploy_minion(pitId, minion):
+    return 201
+
+def list_deployed_avatars(pitId):
+    return 200
+
+def deploy_avatar(pitId, avatar):
+    return 201
+
 
 
 logging.basicConfig(level=logging.INFO)

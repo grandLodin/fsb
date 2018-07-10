@@ -114,7 +114,7 @@ paths:
         200:
           description: deck updated sucessfully
           schema:
-            $ref '#/definitions/Deck'
+            $ref: '#/definitions/Deck'
         default:
           description: error
           schema:
@@ -338,7 +338,7 @@ paths:
         200:
           description: deck updated sucessfully
           schema:
-            $ref '#/definitions/Deck'
+            $ref: '#/definitions/Deck'
         default:
           description: error
           schema:

@@ -11,6 +11,7 @@ if __name__ == '__main__':
 from client.main.deckhandler import DeckHandler
 from testsuite import TestUtils
 
+
 class TestDeckHandler(unittest.TestCase):
     """ Testclass for class Deck from client.main.deck """
 
@@ -70,8 +71,7 @@ class TestDeckHandler(unittest.TestCase):
         }
 
         cls.new_dir = str()
-        cls.testdict = json.loads(cls.test_files_dict['valide']) 
-
+        cls.testdict = json.loads(cls.test_files_dict['valide'])
 
     def setUp(self):
         
@@ -82,32 +82,27 @@ class TestDeckHandler(unittest.TestCase):
             with open(os.path.join(new_dir, filename), 'w+') as f:
                 f.write(content)
 
-
     def tearDown(self):
         shutil.rmtree(self.new_dir)
-
 
     @classmethod
     def tearDownClass(cls):
         pass
-        
     
     ####################### TESTS #############################
-    
 
     def test_getdecks(self):
         """ test for method: get_decks"""
         
         handler = DeckHandler(self.new_dir)
-        user_list= ["Leo"]
+        user_list = ["Leo"]
         for user in user_list:
             TestUtils.blockPrint()
-            dictList = handler.get_decks(user)
+            dictList = handler.list_decks(user)
             TestUtils.enablePrint()
             self.assertEqual(1, len(dictList))
     
     def test_postdeck(self):
-        
         
         handler = DeckHandler(self.new_dir)
         deck = handler.create_deck('TestUser', self.testdict)
@@ -127,7 +122,6 @@ class TestDeckHandler(unittest.TestCase):
         userId = "Tester"
         deckId = 'valide'
         response = handler.delete_deck(userId, deckId)
-        #self.assertRaises(FileNotFoundError, open(os.path.join(self.new_dir, deckId)))
         self.assertEqual(len(self.test_files_dict)-1, len(os.listdir(self.new_dir)))
         self.assertTrue(response)
 
@@ -138,7 +132,6 @@ class TestDeckHandler(unittest.TestCase):
         userId = ""
         deckId = 'xyz'
         response = handler.delete_deck(userId, deckId)
-        #self.assertRaises(FileNotFoundError, open(os.path.join(self.new_dir, deckId)))
         self.assertEqual(len(self.test_files_dict), len(os.listdir(self.new_dir)))
         self.assertFalse(response)
 

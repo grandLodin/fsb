@@ -1,0 +1,7 @@
+apiVersion: v1
+description: fsb server
+name: fsb
+version: 0.1.0
+appVersion: 0.1.0
+sources:
+- https://github.com/grandLodin/fsb

@@ -356,11 +356,11 @@ paths:
         - name: pitId
           in: path
           required: true
-          type: string          
+          type: string
       responses:
         200:
           description: getting all deployed minions in pit
-          schema: 
+          schema:
               type: array
               items:
                 $ref: '#/definitions/Minion'
@@ -380,7 +380,7 @@ paths:
         - name: pitId
           in: path
           required: true
-          type: string          
+          type: string
         - in: body
           name: minion
           required: true
@@ -394,7 +394,7 @@ paths:
         default:
           description: error deploying minion
           schema:
-            $ref: '#/definitions/Error'            
+            $ref: '#/definitions/Error'
 
   /pits/{pitId}/deployedAvatars:
     get:
@@ -408,7 +408,7 @@ paths:
         - name: pitId
           in: path
           required: true
-          type: string          
+          type: string
       responses:
         200:
           description: returning array of avatars
@@ -431,7 +431,7 @@ paths:
         - name: pitId
           in: path
           required: true
-          type: string          
+          type: string
         - in: body
           name: avatar
           required: true
@@ -441,11 +441,11 @@ paths:
         200:
           description: avatar deployed
           schema:
-            $ref: '#/definitions/Avatar'            
+            $ref: '#/definitions/Avatar'
         default:
           description: error deploying avatar
           schema:
-            $ref: '#/definitions/Error'            
+            $ref: '#/definitions/Error'
           
 
 

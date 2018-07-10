@@ -32,7 +32,6 @@ class TestDeckHandler(unittest.TestCase):
                 
             }   """
             ,
-
             'invalide': """
             {
                 "deckname": "Test",
@@ -43,8 +42,8 @@ class TestDeckHandler(unittest.TestCase):
                 "attack": "1", "hp": "1", "skills": ["Attack Face"]}, 
                 "s": {"minionName": "s", "attack": "1", "hp": "1", "skills": ["Attack Face"]}}, "id": 1521781072017279922
                 
-              """ ,
-
+              """
+            ,
             'match': """
             {
                 "deckname": "Test",
@@ -55,8 +54,8 @@ class TestDeckHandler(unittest.TestCase):
                 "attack": "1", "hp": "1", "skills": ["Attack Face"]}, 
                 "s": {"minionName": "s", "attack": "1", "hp": "1", "skills": ["Attack Face"]}}, "id": 1521781072017279922
                 
-            }   """ ,
-
+            }   """
+            ,
             'mismatch': """
             {
                 "deckname": "Test",
@@ -67,7 +66,8 @@ class TestDeckHandler(unittest.TestCase):
                 "attack": "1", "hp": "1", "skills": ["Attack Face"]}, 
                 "s": {"minionName": "s", "attack": "1", "hp": "1", "skills": ["Attack Face"]}}, "id": 1521781072017279922
                 
-            }   """ ,
+            }   """
+            ,
             'empty': ""
         }
 
@@ -155,10 +155,8 @@ class TestDeckHandler(unittest.TestCase):
         response = handler.delete_deck(userId, deckId)
         self.assertEqual(len(self.test_files_dict), len(os.listdir(self.new_dir)))
         self.assertFalse(response)
-
-
             
 
 if __name__ == '__main__':
         unittest.main()
-        
+

@@ -16,6 +16,7 @@ class Deck:
 		self.mMinionSet = set()
 		self.mDeckDict = dict()
 
+
 	def createDeckDialog(self):
 		"""Navigates through the steps necessary to create a Deck """
 
@@ -77,7 +78,7 @@ class Deck:
 		dictionary: dict = {}
 		dictionary.update({'deckname': self.mDeckName})
 		dictionary.update({'filename': self.autoFilename})
-		dictionary.update({'Creatorname': str(self.mCreatorname)})
+		dictionary.update({'creatorname': str(self.mCreatorname)})
 		dictionary.update({'maxAttrPoints': str(self.mMaxAttributePoints)})
 		minionListDict: dict = {}
 		for minion in self.mMinionSet:
@@ -92,6 +93,7 @@ class Deck:
 			minionDict.update({'skills': skillNames})
 			minionListDict.update({minion.mMinionName: minionDict})
 		dictionary.update({'minions': minionListDict})
+		dictionary.update({'id' : hash(str(dictionary))}) # TODO LPO: let DB handle that
 		self.mDeckDict = dictionary
 		return dictionary
 
@@ -101,7 +103,7 @@ class Deck:
 		self.mLog = ""
 		self.mDeckName = pDeckDict['deckname']
 		self.mFilename = pDeckDict['filename']
-		self.mCreatorname = pDeckDict['Creatorname']
+		self.mCreatorname = pDeckDict['creatorname']
 		self.mMaxAttributePoints = int(pDeckDict['maxAttrPoints'])
 		self.mMinionSet = Deck.findMinionsInDeck(pDeckDict, pPlayerName)
 		self.mDeckDict = pDeckDict
@@ -111,7 +113,7 @@ class Deck:
 	def printDeckDict(pDeckDict):
 		"""prints a Deck as string"""
 
-		log = "\n\tCreator of the deck: " + pDeckDict['Creatorname']
+		log = "\n\tCreator of the deck: " + pDeckDict['creatorname']
 		log += "\n\tDeckname: " + pDeckDict['deckname']
 		log += "\n\tAttribute points spent: " + str(pDeckDict['maxAttrPoints'])
 		log += "\n\tMinions:"

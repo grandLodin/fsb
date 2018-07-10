@@ -17,7 +17,7 @@ class TestBrowseDecks(unittest.TestCase):
         cls.deck = Deck()
         cls.browsedeck = BrowseDecks(True)
         cls.selectdeck = BrowseDecks(False)
-        cls.testdeck = {"deckname": "test_", "filename": "test.json", "Creatorname": "Tester_", "maxAttrPoints": "4", "minions": {"testminion_": {"minionName": "testminion_", "attack": "2", "hp": "2", "skills": ["Attack Face"]}}}
+        cls.testdeck = {"deckname": "test_", "filename": "test.json", "creatorname": "Tester_", "maxAttrPoints": "4", "minions": {"testminion_": {"minionName": "testminion_", "attack": "2", "hp": "2", "skills": ["Attack Face"]}}}
     
     def setUp(self):
         self.browsedeck.mPath = "./decks/testdecks/"

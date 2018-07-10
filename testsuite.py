@@ -8,9 +8,10 @@ if __name__ == '__main__':
     sys.path.append('././')
     from client.test.test_deck import TestDeck
     from common.test.test_browsedeck import TestBrowseDecks
+    from client.test.test_deckhandler import TestDeckHandler
 
     # Add TestClasses in this list
-    test_classes_to_run = [TestDeck, TestBrowseDecks]
+    test_classes_to_run = [TestDeck, TestBrowseDecks, TestDeckHandler]
 
     loader = unittest.TestLoader()
 

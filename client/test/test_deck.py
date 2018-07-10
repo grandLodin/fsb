@@ -42,7 +42,7 @@ class TestDeck(unittest.TestCase):
 
         self.skill.mSkillName = "Taunt"
 
-        self.testdictionary = {"deckname": "test_", "filename": "test.json", "Creatorname": "Tester_", "maxAttrPoints": "4", "minions": {"testminion_": {"minionName": "testminion_", "attack": "2", "hp": "2", "skills": ["Attack Face"]}}}
+        self.testdictionary = {"deckname": "test_", "filename": "test.json", "creatorname": "Tester_", "maxAttrPoints": "4", "minions": {"testminion_": {"minionName": "testminion_", "attack": "2", "hp": "2", "skills": ["Attack Face"]}}}
 
     def tearDown(self):
         pass
@@ -118,7 +118,7 @@ class TestDeck(unittest.TestCase):
         self.assertIsNotNone(deckDict)
         self.assertEqual(deckDict['deckname'], "test" )
         self.assertIsInstance(deckDict['filename'], str)
-        self.assertEqual(deckDict['Creatorname'], "Tester" )
+        self.assertEqual(deckDict['creatorname'], "Tester" )
         self.assertEqual(deckDict['maxAttrPoints'], "0")
         self.assertEqual(deckDict['minions'], {"testminion": {"minionName": "testminion", "attack": "1", "hp": "1", "skills": ["Taunt"]}} )
 
@@ -147,7 +147,7 @@ class TestDeck(unittest.TestCase):
     def test_saveDeck(self):
         """tests method: saveDeck"""
 
-        deckDict = {"deckname": "test_", "filename": "test.json", "Creatorname": "Tester_",
+        deckDict = {"deckname": "test_", "filename": "test.json", "creatorname": "Tester_",
                     "maxAttrPoints": "4", "minions": {"testminion_": {"minionName": "testminion_", "attack": "2",
                                                                       "hp": "2", "skills": ["Attack Face"]}}}
         filename = "./decks/decks/test.json"

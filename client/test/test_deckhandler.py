@@ -30,7 +30,8 @@ class TestDeckHandler(unittest.TestCase):
                 "attack": "1", "hp": "1", "skills": ["Attack Face"]}, 
                 "s": {"minionName": "s", "attack": "1", "hp": "1", "skills": ["Attack Face"]}}, "id": 1521781072017279922
                 
-            }   """ ,
+            }   """
+            ,
 
             'invalide': """
             {
@@ -91,7 +92,7 @@ class TestDeckHandler(unittest.TestCase):
     
     ####################### TESTS #############################
 
-    def test_getdecks(self):
+    def test_list_decks(self):
         """ test for method: get_decks"""
         
         handler = DeckHandler(self.new_dir)
@@ -102,7 +103,7 @@ class TestDeckHandler(unittest.TestCase):
             TestUtils.enablePrint()
             self.assertEqual(1, len(dictList))
     
-    def test_postdeck(self):
+    def test_create_deck(self):
         
         handler = DeckHandler(self.new_dir)
         deck = handler.create_deck('TestUser', self.testdict)
@@ -115,7 +116,27 @@ class TestDeckHandler(unittest.TestCase):
             deckDict = json.load(f)
             self.assertDictEqual(self.testdict, deckDict)
 
-    def test_deletedeck(self):
+    def test_get_deck(self):
+
+        handler = DeckHandler(self.new_dir)
+        user_id = "TestUser"
+        deck_id = "valide"
+        deck = handler.get_deck(user_id, deck_id)
+        testDict = self.testdict
+        testDict.update({'creatorname': deck['creatorname']})
+        testDict.update({'id': deck['id']})
+        self.assertIsNotNone(deck)
+        self.assertEqual(self.testdict, deck)
+
+    def test_get_deck_no_valid_id(self):
+
+        handler = DeckHandler(self.new_dir)
+        user_id = "TestUser"
+        deck_id = "xyz"
+        deck = handler.get_deck(user_id, deck_id)
+        self.assertEqual({}, deck)
+
+    def test_delete_deck(self):
 
         handler = DeckHandler(self.new_dir)
         self.assertEqual(len(self.test_files_dict), len(os.listdir(self.new_dir)))
@@ -125,12 +146,12 @@ class TestDeckHandler(unittest.TestCase):
         self.assertEqual(len(self.test_files_dict)-1, len(os.listdir(self.new_dir)))
         self.assertTrue(response)
 
-    def test_deletedeck_nonExistingDeck(self):
+    def test_delete_deck_nonExistingDeck(self):
 
         handler = DeckHandler(self.new_dir)
         self.assertEqual(len(self.test_files_dict), len(os.listdir(self.new_dir)))
         userId = ""
-        deckId = 'xyz'
+        deckId = 'xyz' # xyz is not the id
         response = handler.delete_deck(userId, deckId)
         self.assertEqual(len(self.test_files_dict), len(os.listdir(self.new_dir)))
         self.assertFalse(response)

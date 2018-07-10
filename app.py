@@ -16,6 +16,11 @@ def create_deck(deck):
     return deck_handler.create_deck(user_id, deck)
 
 
+def get_deck(deck_id):
+    user_id = connexion.request.headers["userId"]
+    return deck_handler.get_deck(user_id, deck_id)
+
+
 def delete_deck(deck_id):
     user_id = connexion.request.headers["userId"]
     if deck_handler.delete_deck(user_id, deck_id):

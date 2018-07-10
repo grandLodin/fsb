@@ -16,18 +16,18 @@ def create_deck(deck):
     return deck_handler.create_deck(user_id, deck)
 
 
+def get_deck(deckId):
+    user_id = connexion.request.headers["userId"]
+    return deck_handler.get_deck(user_id, deckId)
+
+
 def delete_deck(deckId):
     user_id = connexion.request.headers["userId"]
-    if deck_handler.delete_deck(user_id, deck_id):
+    if deck_handler.delete_deck(user_id, deckId):
         return 204
     else: 
         return 404
 
-def get_deck(deckId):
-    return 200
-
-def delete_deck(deckId):
-    return 204
 
 def update_deck(deckId, deck):
     return 200
